@@ -3,12 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>بوابة التصويت | مملكة PeaceLand</title>
+
+  <meta
+    name="description"
+    content="بوابة التصويت والاستفتاءات الرسمية لمملكة PeaceLand"
+  >
+
   <style>
     :root {
       --green: #123f32;
+      --green2: #205b45;
       --gold: #c6a45a;
       --cream: #f7f3e8;
+      --white: #fff;
+      --text: #20332a;
+      --border: #e7dfcd;
+      --red: #a33131;
     }
 
     * {
@@ -19,34 +31,75 @@
       margin: 0;
       font-family: Arial, Tahoma, sans-serif;
       background: var(--cream);
-      color: #20332a;
+      color: var(--text);
       line-height: 1.7;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: none;
+      padding: 11px 17px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #d7d0c0;
+      border-radius: 8px;
+      background: white;
+      color: var(--text);
+      margin-top: 5px;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
     }
 
     header {
       background: var(--green);
       color: white;
-      padding: 18px 6%;
+      padding: 16px 5%;
       border-bottom: 4px solid var(--gold);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
       gap: 12px;
+      flex-wrap: wrap;
     }
 
     header h2 {
+      color: white;
       margin: 0;
       font-size: 21px;
     }
 
-    button {
-      border: none;
-      padding: 11px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 15px;
-      font-weight: bold;
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .gold {
@@ -54,43 +107,65 @@
       color: #17271f;
     }
 
+    .green {
+      background: var(--green);
+      color: white;
+    }
+
+    .light {
+      background: #eee8da;
+      color: var(--green);
+    }
+
+    .danger {
+      background: var(--red);
+      color: white;
+    }
+
     .hero {
-      background: linear-gradient(135deg, #123f32, #28684e);
+      background: linear-gradient(135deg, var(--green), #28684e);
       color: white;
       text-align: center;
-      padding: 75px 20px;
+      padding: 65px 20px;
     }
 
     .hero h1 {
-      font-size: clamp(30px, 5vw, 45px);
-      margin: 0 0 18px;
+      font-size: clamp(30px, 5vw, 44px);
+      margin: 0 0 15px;
     }
 
     .hero p {
-      max-width: 700px;
+      max-width: 720px;
       margin: 0 auto 25px;
       color: #e7eee9;
       font-size: 18px;
     }
 
     main {
-      width: min(1100px, 90%);
-      margin: 35px auto;
+      width: min(1100px, 92%);
+      margin: 30px auto;
+    }
+
+    h2,
+    h3 {
+      color: var(--green);
     }
 
     .stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 40px;
+      gap: 15px;
+      margin-bottom: 35px;
     }
 
-    .stat, .card {
+    .stat,
+    .card {
       background: white;
-      border: 1px solid #e7dfcd;
+      border: 1px solid var(--border);
       border-radius: 13px;
-      padding: 23px;
+      padding: 21px;
       box-shadow: 0 5px 20px #00000008;
+      min-width: 0;
     }
 
     .stat {
@@ -100,21 +175,14 @@
     .stat strong {
       display: block;
       color: var(--green);
-      font-size: 30px;
-    }
-
-    h2 {
-      color: var(--green);
+      font-size: 28px;
+      overflow-wrap: anywhere;
     }
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
-
-    .card h3 {
-      color: var(--green);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 17px;
     }
 
     .badge {
@@ -127,12 +195,75 @@
     }
 
     .notice {
-      margin-top: 25px;
+      margin-top: 20px;
       background: #fff7e4;
       border: 1px solid #e8d5a4;
       border-radius: 10px;
-      padding: 15px;
+      padding: 14px;
       font-size: 14px;
+    }
+
+    .message {
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .error {
+      background: #fde8e8;
+      color: #8c2525;
+    }
+
+    .success {
+      background: #e5f5e9;
+      color: #205b36;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .section {
+      margin-top: 30px;
+    }
+
+    .vote-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin: 15px 0;
+      overflow-wrap: anywhere;
+    }
+
+    .vote-card p {
+      white-space: pre-wrap;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .option-row {
+      padding: 10px;
+      background: #f7f3e8;
+      border-radius: 8px;
+      margin: 7px 0;
+    }
+
+    .option-row strong {
+      float: inline-end;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: start;
     }
 
     footer {
@@ -143,21 +274,27 @@
       text-align: center;
     }
 
-    .hidden {
-      display: none;
+    footer p {
+      margin: 0 0 5px;
     }
 
-    @media (max-width: 650px) {
-      .stats, .cards {
+    @media (max-width: 700px) {
+      .stats,
+      .cards,
+      .admin-grid {
         grid-template-columns: 1fr;
       }
 
       .hero {
-        padding: 50px 18px;
+        padding: 45px 18px;
       }
 
       header {
-        padding: 15px 5%;
+        padding: 15px 4%;
+      }
+
+      header h2 {
+        font-size: 18px;
       }
     }
   </style>
@@ -167,87 +304,191 @@
 
 <header>
   <h2 id="brand">👑 مملكة PeaceLand</h2>
-  <div>
-    <button class="gold" onclick="changeLanguage()" id="languageButton">
-      English
-    </button>
-    <button onclick="showAdmin()" id="adminButton">
-      دخول الإدارة
-    </button>
+
+  <div class="header-actions">
+    <button class="gold" id="languageButton">English</button>
+    <button class="light" id="adminButton">دخول الإدارة</button>
   </div>
 </header>
+
+<!-- PUBLIC PORTAL -->
 
 <div id="publicPage">
 
   <section class="hero">
-    <h1 id="title">صوتك يساهم في رسم مستقبل المملكة</h1>
-    <p id="description">
-      تابع التصويتات والاستفتاءات المنشورة، واطّلع على النتائج الرسمية،
-      وشارك عندما يكون التصويت مفتوحًا.
+    <h1 id="heroTitle">
+      صوتك يساهم في رسم مستقبل المملكة
+    </h1>
+
+    <p id="heroDescription">
+      تابع التصويتات والاستفتاءات المنشورة، واطّلع على النتائج الرسمية.
     </p>
-    <button class="gold" onclick="scrollToVotes()" id="voteButton">
+
+    <button class="gold" id="exploreButton">
       استعرض التصويتات
     </button>
   </section>
 
   <main>
-    <div class="stats">
+    <section class="stats">
       <div class="stat">
-        <strong>0</strong>
-        <span id="openLabel">تصويتات مفتوحة</span>
-      </div>
-
-      <div class="stat">
-        <strong>0</strong>
-        <span id="resultsLabel">نتائج منشورة</span>
+        <strong id="openCount">—</strong>
+        <span id="openLabel">التصويتات المفتوحة</span>
       </div>
 
       <div class="stat">
-        <strong id="accessValue">متاحة للجميع</strong>
-        <span id="accessLabel">الاطلاع على المعلومات المنشورة</span>
-      </div>
-    </div>
-
-    <section id="votes">
-      <h2 id="votesTitle">🗳️ التصويتات والاستفتاءات</h2>
-
-      <div class="cards">
-        <article class="card">
-          <span class="badge" id="status">لا توجد تصويتات منشورة</span>
-          <h3 id="emptyTitle">مرحبًا بكم في بوابة التصويت</h3>
-          <p id="emptyDescription">
-            ستظهر هنا التصويتات والاستفتاءات الرسمية بعد نشرها من الإدارة.
-          </p>
-        </article>
-
-        <article class="card">
-          <span class="badge" id="archiveBadge">الأرشيف</span>
-          <h3 id="archiveTitle">أرشيف التصويتات</h3>
-          <p id="archiveDescription">
-            ستُعرض هنا التصويتات السابقة ونتائجها المنشورة.
-          </p>
-        </article>
+        <strong id="publishedCount">—</strong>
+        <span id="publishedLabel">النتائج المنشورة</span>
       </div>
 
-      <div class="notice" id="notice">
-        هذه النسخة واجهة أولية. التصويت الفعلي والنتائج وتسجيل الدخول
-        تحتاج إلى ربط قاعدة بيانات آمنة قبل استخدامها.
+      <div class="stat">
+        <strong id="portalStatus">●</strong>
+        <span id="portalStatusLabel">حالة الاتصال</span>
       </div>
     </section>
-  </main>
 
+    <section id="publicVotes" class="section">
+      <h2 id="votesHeading">🗳️ التصويتات والاستفتاءات</h2>
+      <div id="publicVotesList">جارٍ تحميل التصويتات...</div>
+    </section>
+
+    <section id="publicArchive" class="section">
+      <h2 id="archiveHeading">📚 أرشيف التصويتات</h2>
+      <div id="archiveList"></div>
+    </section>
+
+    <div class="notice" id="publicNotice">
+      تظهر هنا التصويتات المنشورة والنتائج التي سمحت الإدارة بنشرها.
+    </div>
+  </main>
 </div>
+
+<!-- ADMIN PORTAL -->
 
 <div id="adminPage" class="hidden">
   <main>
-    <button onclick="hideAdmin()" id="backButton">العودة إلى الموقع</button>
-    <section class="card">
-      <h2 id="adminTitle">🔐 لوحة الإدارة</h2>
-      <p id="adminDescription">
-        سيتم تجهيز تسجيل الدخول وإدارة التصويتات في المرحلة التالية.
+    <button class="light" id="backButton">العودة إلى الموقع</button>
+
+    <!-- LOGIN -->
+
+    <section id="loginPanel" class="card section">
+      <h2 id="loginHeading">🔐 تسجيل دخول الإدارة الملكية</h2>
+
+      <p id="loginIntro">
+        الدخول مخصّص لحساب المدير المعتمد.
       </p>
-      <div class="notice" id="securityNotice">
-        تسجيل الدخول غير مفعّل بعد. لا تدخل كلمة مرور حقيقية في هذه النسخة.
+
+      <form id="loginForm">
+        <label for="adminEmail" id="emailLabel">
+          البريد الإلكتروني
+        </label>
+
+        <input
+          id="adminEmail"
+          type="email"
+          autocomplete="username"
+          required
+        >
+
+        <label for="adminPassword" id="passwordLabel">
+          كلمة المرور
+        </label>
+
+        <input
+          id="adminPassword"
+          type="password"
+          autocomplete="current-password"
+          required
+        >
+
+        <button class="gold" id="loginButton" type="submit">
+          تسجيل الدخول
+        </button>
+      </form>
+
+      <div id="loginMessage" aria-live="polite"></div>
+    </section>
+
+    <!-- ADMIN DASHBOARD -->
+
+    <section id="adminDashboard" class="hidden section">
+      <div class="card">
+        <h2 id="dashboardHeading">لوحة الإدارة الملكية</h2>
+
+        <p id="adminIdentity"></p>
+
+        <button class="danger" id="logoutButton">
+          تسجيل الخروج
+        </button>
+      </div>
+
+      <div class="admin-grid section">
+
+        <!-- CREATE VOTE -->
+
+        <section class="card">
+          <h2 id="createHeading">➕ إنشاء تصويت</h2>
+
+          <form id="createVoteForm">
+            <label for="titleAr">عنوان التصويت بالعربية</label>
+            <input id="titleAr" maxlength="200" required>
+
+            <label for="titleEn">Vote title in English</label>
+            <input id="titleEn" maxlength="200" required>
+
+            <label for="descriptionAr">الوصف بالعربية</label>
+            <textarea id="descriptionAr" maxlength="5000"></textarea>
+
+            <label for="descriptionEn">Description in English</label>
+            <textarea id="descriptionEn" maxlength="5000"></textarea>
+
+            <label for="voteKind" id="kindLabel">نوع التصويت</label>
+            <select id="voteKind">
+              <option value="referendum">استفتاء / Referendum</option>
+              <option value="election">انتخابات / Election</option>
+              <option value="poll">تصويت / Poll</option>
+            </select>
+
+            <label for="startsAt" id="startsLabel">موعد البداية</label>
+            <input id="startsAt" type="datetime-local">
+
+            <label for="endsAt" id="endsLabel">موعد النهاية</label>
+            <input id="endsAt" type="datetime-local">
+
+            <label for="optionsInput" id="optionsLabel">
+              خيارات التصويت
+            </label>
+
+            <p id="optionsHelp">
+              كل سطر خيار واحد: العربية | English
+            </p>
+
+            <textarea
+              id="optionsInput"
+              placeholder="نعم | Yes&#10;لا | No"
+              required
+            ></textarea>
+
+            <button class="gold" type="submit" id="createButton">
+              إنشاء التصويت كمسودة
+            </button>
+          </form>
+
+          <div id="createMessage" aria-live="polite"></div>
+        </section>
+
+        <!-- MANAGE VOTES -->
+
+        <section class="card">
+          <h2 id="manageHeading">⚙️ إدارة التصويتات</h2>
+
+          <button class="green" id="refreshButton">
+            تحديث القائمة
+          </button>
+
+          <div id="adminVotesList"></div>
+        </section>
+
       </div>
     </section>
   </main>
@@ -257,111 +498,945 @@
   <p id="footerText">
     © مملكة PeaceLand — بوابة التصويت والاستفتاءات
   </p>
-  <small id="footerNote">نسخة أولية قيد التطوير</small>
+  <small id="footerNote">بوابة التصويت الرسمية</small>
 </footer>
 
-<script>
-  let language = "ar";
-
-  function changeLanguage() {
-    language = language === "ar" ? "en" : "ar";
-
-    document.documentElement.lang = language;
-    document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
-
-    const text = {
-      ar: {
-        brand: "👑 مملكة PeaceLand",
-        languageButton: "English",
-        adminButton: "دخول الإدارة",
-        title: "صوتك يساهم في رسم مستقبل المملكة",
-        description: "تابع التصويتات والاستفتاءات المنشورة، واطّلع على النتائج الرسمية، وشارك عندما يكون التصويت مفتوحًا.",
-        voteButton: "استعرض التصويتات",
-        openLabel: "تصويتات مفتوحة",
-        resultsLabel: "نتائج منشورة",
-        accessValue: "متاحة للجميع",
-        accessLabel: "الاطلاع على المعلومات المنشورة",
-        votesTitle: "🗳️ التصويتات والاستفتاءات",
-        status: "لا توجد تصويتات منشورة",
-        emptyTitle: "مرحبًا بكم في بوابة التصويت",
-        emptyDescription: "ستظهر هنا التصويتات والاستفتاءات الرسمية بعد نشرها من الإدارة.",
-        archiveBadge: "الأرشيف",
-        archiveTitle: "أرشيف التصويتات",
-        archiveDescription: "ستُعرض هنا التصويتات السابقة ونتائجها المنشورة.",
-        notice: "هذه النسخة واجهة أولية. التصويت الفعلي والنتائج وتسجيل الدخول تحتاج إلى ربط قاعدة بيانات آمنة قبل استخدامها.",
-        backButton: "العودة إلى الموقع",
-        adminTitle: "🔐 لوحة الإدارة",
-        adminDescription: "سيتم تجهيز تسجيل الدخول وإدارة التصويتات في المرحلة التالية.",
-        securityNotice: "تسجيل الدخول غير مفعّل بعد. لا تدخل كلمة مرور حقيقية في هذه النسخة.",
-        footerText: "© مملكة PeaceLand — بوابة التصويت والاستفتاءات",
-        footerNote: "نسخة أولية قيد التطوير"
-      },
-      en: {
-        brand: "👑 Kingdom of PeaceLand",
-        languageButton: "العربية",
-        adminButton: "Admin sign-in",
-        title: "Your voice helps shape the Kingdom's future",
-        description: "Explore published votes and referendums, review official results, and participate when voting is open.",
-        voteButton: "Explore votes",
-        openLabel: "Open votes",
-        resultsLabel: "Published results",
-        accessValue: "Public access",
-        accessLabel: "Published information",
-        votesTitle: "🗳️ Votes & Referendums",
-        status: "No published votes",
-        emptyTitle: "Welcome to the Voting Portal",
-        emptyDescription: "Official votes and referendums will appear here after publication.",
-        archiveBadge: "Archive",
-        archiveTitle: "Voting archive",
-        archiveDescription: "Previous votes and published results will appear here.",
-        notice: "This is an initial interface. Actual voting, results, and sign-in require a secure database before use.",
-        backButton: "Return to portal",
-        adminTitle: "🔐 Administration",
-        adminDescription: "Sign-in and vote management will be configured in the next stage.",
-        securityNotice: "Sign-in is not active yet. Do not enter a real password in this version.",
-        footerText: "© Kingdom of PeaceLand — Voting & Referendum Portal",
-        footerNote: "Initial version in development"
-      }
-    };
-
-    Object.keys(text[language]).forEach(id => {
-      const element = document.getElementById(id);
-      if (element) element.textContent = text[language][id];
-    });
-  }
-
-  function showAdmin() {
-    document.getElementById("publicPage").classList.add("hidden");
-    document.getElementById("adminPage").classList.remove("hidden");
-    location.hash = "admin";
-  }
-
-  function hideAdmin() {
-    document.getElementById("adminPage").classList.add("hidden");
-    document.getElementById("publicPage").classList.remove("hidden");
-    history.replaceState(null, "", location.pathname);
-  }
-
-  function scrollToVotes() {
-    document.getElementById("votes").scrollIntoView({
-      behavior: "smooth"
-    });
-  }
-
-  if (location.hash === "#admin") {
-    showAdmin();
-  }
-</script>
-<!-- Supabase connection -->
+<!-- Supabase SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-  const kingdomSupabase = window.supabase.createClient(
-    'https://ltfxhxgfbnghnkqvpupk.supabase.co',
-    'sb_publishable_azSmiAqplIGdLCdJEfwf-A_eaxMWEJ-'
-  );
+"use strict";
 
-  console.log('Kingdom Voting Portal: Supabase client initialized');
+/*
+  PUBLIC CONFIGURATION
+  The publishable key is intended for browser use.
+  Never place a service_role or sb_secret key here.
+*/
+
+const SUPABASE_URL = "https://ltfxhxgfbnghnkqvpupk.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_azSmiAqplIGdLCdJEfwf-A_eaxMWEJ-";
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY,
+  {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true
+    }
+  }
+);
+
+let language = "ar";
+let currentAdmin = null;
+
+const $ = id => document.getElementById(id);
+
+const translations = {
+  ar: {
+    brand: "👑 مملكة PeaceLand",
+    languageButton: "English",
+    adminButton: "دخول الإدارة",
+    heroTitle: "صوتك يساهم في رسم مستقبل المملكة",
+    heroDescription:
+      "تابع التصويتات والاستفتاءات المنشورة، واطّلع على النتائج الرسمية.",
+    exploreButton: "استعرض التصويتات",
+    openLabel: "التصويتات المفتوحة",
+    publishedLabel: "النتائج المنشورة",
+    portalStatusLabel: "حالة الاتصال",
+    votesHeading: "🗳️ التصويتات والاستفتاءات",
+    archiveHeading: "📚 أرشيف التصويتات",
+    publicNotice:
+      "تظهر هنا التصويتات المنشورة والنتائج التي سمحت الإدارة بنشرها.",
+    backButton: "العودة إلى الموقع",
+    loginHeading: "🔐 تسجيل دخول الإدارة الملكية",
+    loginIntro: "الدخول مخصّص لحساب المدير المعتمد.",
+    emailLabel: "البريد الإلكتروني",
+    passwordLabel: "كلمة المرور",
+    loginButton: "تسجيل الدخول",
+    dashboardHeading: "لوحة الإدارة الملكية",
+    logoutButton: "تسجيل الخروج",
+    createHeading: "➕ إنشاء تصويت",
+    kindLabel: "نوع التصويت",
+    startsLabel: "موعد البداية",
+    endsLabel: "موعد النهاية",
+    optionsLabel: "خيارات التصويت",
+    optionsHelp: "كل سطر خيار واحد: العربية | English",
+    createButton: "إنشاء التصويت كمسودة",
+    manageHeading: "⚙️ إدارة التصويتات",
+    refreshButton: "تحديث القائمة",
+    footerText: "© مملكة PeaceLand — بوابة التصويت والاستفتاءات",
+    footerNote: "بوابة التصويت الرسمية",
+    loading: "جارٍ التحميل...",
+    noVotes: "لا توجد تصويتات منشورة حاليًا.",
+    noArchive: "لا توجد تصويتات في الأرشيف.",
+    open: "مفتوح",
+    scheduled: "مجدول",
+    closed: "مغلق",
+    published: "النتائج منشورة",
+    draft: "مسودة",
+    referendum: "استفتاء",
+    election: "انتخابات",
+    poll: "تصويت",
+    connectionOk: "متصل",
+    connectionError: "تعذّر الاتصال",
+    loginRequired: "يرجى تسجيل الدخول.",
+    checkingAdmin: "جارٍ التحقق من صلاحيات المدير...",
+    notAdmin: "هذا الحساب ليس لديه صلاحية الإدارة.",
+    loginFailed: "تعذّر تسجيل الدخول. راجع البريد وكلمة المرور.",
+    createSuccess: "تم إنشاء التصويت كمسودة.",
+    createFailed: "تعذّر إنشاء التصويت.",
+    optionsInvalid:
+      "أدخل خيارين على الأقل. استعمل كل سطر بهذا الشكل: العربية | English",
+    updateSuccess: "تم تحديث التصويت.",
+    updateFailed: "تعذّر تحديث التصويت.",
+    publishConfirm: "هل تريد نشر النتائج للعموم؟",
+    openConfirm: "هل تريد فتح التصويت؟",
+    closeConfirm: "هل تريد غلق التصويت؟",
+    alreadyOpen: "مفتوح",
+    actionOpen: "فتح التصويت",
+    actionClose: "غلق التصويت",
+    actionPublish: "نشر النتائج",
+    actionSchedule: "جدولة التصويت",
+    statusLabel: "الحالة",
+    startsAtLabel: "البداية",
+    endsAtLabel: "النهاية",
+    resultsUnavailable: "النتائج غير منشورة.",
+    resultsHeading: "النتائج الرسمية",
+    totalVotes: "الأصوات المسجّلة",
+    noResults: "لا توجد خيارات أو نتائج متاحة.",
+    signOutFailed: "تعذّر تسجيل الخروج.",
+    userLabel: "الحساب",
+    missingDates: "تاريخ النهاية يجب أن يكون بعد تاريخ البداية.",
+    resultsOnlyClosed: "يجب غلق التصويت قبل نشر النتائج.",
+    footerSecurity:
+      "التصويت الفعلي يحتاج إلى استكمال اختبارات الحماية."
+  },
+
+  en: {
+    brand: "👑 Kingdom of PeaceLand",
+    languageButton: "العربية",
+    adminButton: "Admin sign-in",
+    heroTitle: "Your voice helps shape the Kingdom's future",
+    heroDescription:
+      "Explore published votes and referendums and review official results.",
+    exploreButton: "Explore votes",
+    openLabel: "Open votes",
+    publishedLabel: "Published results",
+    portalStatusLabel: "Connection status",
+    votesHeading: "🗳️ Votes & Referendums",
+    archiveHeading: "📚 Voting Archive",
+    publicNotice:
+      "Published votes and results approved for publication appear here.",
+    backButton: "Return to portal",
+    loginHeading: "🔐 Royal Administration Sign-in",
+    loginIntro: "Access is limited to an authorized administrator.",
+    emailLabel: "Email address",
+    passwordLabel: "Password",
+    loginButton: "Sign in",
+    dashboardHeading: "Royal Administration Dashboard",
+    logoutButton: "Sign out",
+    createHeading: "➕ Create a vote",
+    kindLabel: "Vote type",
+    startsLabel: "Start time",
+    endsLabel: "End time",
+    optionsLabel: "Voting options",
+    optionsHelp: "One option per line: Arabic | English",
+    createButton: "Create draft",
+    manageHeading: "⚙️ Manage votes",
+    refreshButton: "Refresh list",
+    footerText: "© Kingdom of PeaceLand — Voting & Referendum Portal",
+    footerNote: "Official Voting Portal",
+    loading: "Loading...",
+    noVotes: "There are no published votes at this time.",
+    noArchive: "There are no archived votes.",
+    open: "Open",
+    scheduled: "Scheduled",
+    closed: "Closed",
+    published: "Results published",
+    draft: "Draft",
+    referendum: "Referendum",
+    election: "Election",
+    poll: "Poll",
+    connectionOk: "Connected",
+    connectionError: "Connection error",
+    loginRequired: "Please sign in.",
+    checkingAdmin: "Checking administrator permissions...",
+    notAdmin: "This account is not authorized to administer the portal.",
+    loginFailed: "Sign-in failed. Check your email and password.",
+    createSuccess: "Draft created successfully.",
+    createFailed: "Could not create the vote.",
+    optionsInvalid:
+      "Enter at least two options, one per line: Arabic | English",
+    updateSuccess: "Vote updated.",
+    updateFailed: "Could not update the vote.",
+    publishConfirm: "Publish these results for public viewing?",
+    openConfirm: "Open this vote?",
+    closeConfirm: "Close this vote?",
+    alreadyOpen: "Open",
+    actionOpen: "Open vote",
+    actionClose: "Close vote",
+    actionPublish: "Publish results",
+    actionSchedule: "Schedule vote",
+    statusLabel: "Status",
+    startsAtLabel: "Starts",
+    endsAtLabel: "Ends",
+    resultsUnavailable: "Results are not published.",
+    resultsHeading: "Official results",
+    totalVotes: "Recorded ballots",
+    noResults: "No options or results are available.",
+    signOutFailed: "Could not sign out.",
+    userLabel: "Account",
+    missingDates: "The end date must be after the start date.",
+    resultsOnlyClosed: "Close the vote before publishing results.",
+    footerSecurity:
+      "Actual voting requires further security testing."
+  }
+};
+
+function t(key) {
+  return translations[language][key] || key;
+}
+
+function setMessage(element, message, success = false) {
+  element.textContent = message;
+  element.className = "message " + (success ? "success" : "error");
+}
+
+function clearMessage(element) {
+  element.textContent = "";
+  element.className = "";
+}
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function formatDate(value) {
+  if (!value) return "—";
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) return "—";
+
+  return new Intl.DateTimeFormat(
+    language === "ar" ? "ar" : "en",
+    {
+      dateStyle: "medium",
+      timeStyle: "short"
+    }
+  ).format(date);
+}
+
+function statusText(status) {
+  return t(status) || status;
+}
+
+function showPublic() {
+  $("publicPage").classList.remove("hidden");
+  $("adminPage").classList.add("hidden");
+  history.replaceState(null, "", location.pathname);
+}
+
+function showAdmin() {
+  $("publicPage").classList.add("hidden");
+  $("adminPage").classList.remove("hidden");
+  history.replaceState(null, "", location.pathname + "#admin");
+}
+
+$("adminButton").addEventListener("click", async () => {
+  showAdmin();
+  await checkSession();
+});
+
+$("backButton").addEventListener("click", showPublic);
+
+$("exploreButton").addEventListener("click", () => {
+  $("publicVotes").scrollIntoView({ behavior: "smooth" });
+});
+
+$("languageButton").addEventListener("click", async () => {
+  language = language === "ar" ? "en" : "ar";
+
+  document.documentElement.lang = language;
+  document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+
+  for (const [id, value] of Object.entries(translations[language])) {
+    const element = $(id);
+
+    if (element) {
+      element.textContent = value;
+    }
+  }
+
+  await loadPublicVotes();
+
+  if (currentAdmin) {
+    await loadAdminVotes();
+  }
+});
+
+/* ----------------------------------------
+   PUBLIC VOTES AND PUBLISHED RESULTS
+----------------------------------------- */
+
+async function loadPublicVotes() {
+  $("publicVotesList").textContent = t("loading");
+  $("archiveList").textContent = t("loading");
+
+  try {
+    const { data, error } = await db
+      .from("votes")
+      .select("*")
+      .in("status", ["open", "closed", "published"])
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    const now = Date.now();
+
+    const visible = (data || []).filter(vote => {
+      if (vote.status !== "open") return true;
+
+      const starts = vote.starts_at
+        ? new Date(vote.starts_at).getTime()
+        : 0;
+
+      const ends = vote.ends_at
+        ? new Date(vote.ends_at).getTime()
+        : Infinity;
+
+      return starts <= now && ends > now;
+    });
+
+    const openVotes = visible.filter(vote => {
+      if (vote.status !== "open") return false;
+
+      const starts = vote.starts_at
+        ? new Date(vote.starts_at).getTime()
+        : 0;
+
+      const ends = vote.ends_at
+        ? new Date(vote.ends_at).getTime()
+        : Infinity;
+
+      return starts <= now && ends > now;
+    });
+
+    const published = visible.filter(
+      vote => vote.results_published === true
+    );
+
+    $("openCount").textContent = openVotes.length;
+    $("publishedCount").textContent = published.length;
+    $("portalStatus").textContent = t("connectionOk");
+
+    $("publicVotesList").innerHTML = "";
+
+    if (!visible.length) {
+      $("publicVotesList").textContent = t("noVotes");
+    } else {
+      for (const vote of visible) {
+        const title = language === "ar"
+          ? vote.title_ar
+          : vote.title_en;
+
+        const description = language === "ar"
+          ? vote.description_ar
+          : vote.description_en;
+
+        const article = document.createElement("article");
+        article.className = "vote-card";
+
+        article.innerHTML = `
+          <span class="badge">
+            ${escapeHtml(statusText(vote.status))}
+          </span>
+
+          <h3>${escapeHtml(title)}</h3>
+
+          <p>${escapeHtml(description)}</p>
+
+          <p>
+            <strong>${escapeHtml(t("startsAtLabel"))}:</strong>
+            ${escapeHtml(formatDate(vote.starts_at))}
+          </p>
+
+          <p>
+            <strong>${escapeHtml(t("endsAtLabel"))}:</strong>
+            ${escapeHtml(formatDate(vote.ends_at))}
+          </p>
+
+          <div class="actions">
+            <button class="green" data-results="${escapeHtml(vote.id)}">
+              ${escapeHtml(t("resultsHeading"))}
+            </button>
+          </div>
+
+          <div id="results-${escapeHtml(vote.id)}"></div>
+        `;
+
+        $("publicVotesList").appendChild(article);
+      }
+    }
+
+    $("archiveList").innerHTML = "";
+
+    const archive = visible.filter(
+      vote => vote.status === "closed" || vote.status === "published"
+    );
+
+    if (!archive.length) {
+      $("archiveList").textContent = t("noArchive");
+    } else {
+      for (const vote of archive) {
+        const item = document.createElement("article");
+        item.className = "vote-card";
+
+        item.innerHTML = `
+          <h3>${escapeHtml(
+            language === "ar" ? vote.title_ar : vote.title_en
+          )}</h3>
+          <p>${escapeHtml(statusText(vote.status))}</p>
+          <button class="green" data-results="${escapeHtml(vote.id)}">
+            ${escapeHtml(t("resultsHeading"))}
+          </button>
+          <div id="results-${escapeHtml(vote.id)}"></div>
+        `;
+
+        $("archiveList").appendChild(item);
+      }
+    }
+
+    document.querySelectorAll("[data-results]").forEach(button => {
+      button.addEventListener("click", () => {
+        loadPublishedResults(button.dataset.results);
+      });
+    });
+
+  } catch (error) {
+    console.error("Public votes error:", error);
+
+    $("portalStatus").textContent = t("connectionError");
+    $("publicVotesList").textContent = t("connectionError");
+    $("archiveList").textContent = t("connectionError");
+  }
+}
+
+async function loadPublishedResults(voteId) {
+  const container = $("results-" + voteId);
+
+  if (!container) return;
+
+  container.textContent = t("loading");
+
+  try {
+    const { data, error } = await db.rpc(
+      "get_published_vote_results",
+      { p_vote_id: voteId }
+    );
+
+    if (error) throw error;
+
+    if (!data || !data.length) {
+      container.textContent = t("resultsUnavailable");
+      return;
+    }
+
+    const total = data.reduce(
+      (sum, row) => sum + Number(row.votes_count || 0),
+      0
+    );
+
+    container.innerHTML = `
+      <h4>${escapeHtml(t("resultsHeading"))}</h4>
+      <p>
+        ${escapeHtml(t("totalVotes"))}:
+        <strong>${total}</strong>
+      </p>
+      ${data.map(row => {
+        const label = language === "ar"
+          ? row.label_ar
+          : row.label_en;
+
+        const count = Number(row.votes_count || 0);
+
+        const percentage = total
+          ? Math.round(count * 100 / total)
+          : 0;
+
+        return `
+          <div class="option-row">
+            <strong>${count} — ${percentage}%</strong>
+            ${escapeHtml(label)}
+            <div style="height:8px;background:#e5e0d5;border-radius:10px;margin-top:8px">
+              <div style="height:8px;width:${percentage}%;background:#205b45;border-radius:10px"></div>
+            </div>
+          </div>
+        `;
+      }).join("")}
+    `;
+
+  } catch (error) {
+    console.error("Results error:", error);
+    container.textContent = t("resultsUnavailable");
+  }
+}
+
+/* ----------------------------------------
+   ADMIN AUTHENTICATION
+----------------------------------------- */
+
+async function checkAdminRole() {
+  const { data, error } = await db.rpc("is_admin");
+
+  if (error) {
+    console.error("Admin role check failed:", error);
+    return false;
+  }
+
+  return data === true;
+}
+
+async function checkSession() {
+  const { data, error } = await db.auth.getSession();
+
+  if (error || !data.session) {
+    currentAdmin = null;
+    showLogin();
+    return;
+  }
+
+  const isAdmin = await checkAdminRole();
+
+  if (!isAdmin) {
+    currentAdmin = null;
+
+    await db.auth.signOut();
+
+    showLogin();
+
+    setMessage($("loginMessage"), t("notAdmin"));
+
+    return;
+  }
+
+  currentAdmin = data.session.user;
+
+  showDashboard();
+
+  await loadAdminVotes();
+}
+
+function showLogin() {
+  $("loginPanel").classList.remove("hidden");
+  $("adminDashboard").classList.add("hidden");
+}
+
+function showDashboard() {
+  $("loginPanel").classList.add("hidden");
+  $("adminDashboard").classList.remove("hidden");
+
+  $("adminIdentity").textContent =
+    t("userLabel") + ": " + (currentAdmin?.email || "");
+}
+
+$("loginForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const email = $("adminEmail").value.trim();
+  const password = $("adminPassword").value;
+
+  $("loginButton").disabled = true;
+  clearMessage($("loginMessage"));
+
+  try {
+    const { data, error } = await db.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) throw error;
+
+    const isAdmin = await checkAdminRole();
+
+    if (!isAdmin) {
+      await db.auth.signOut();
+      throw new Error("NOT_ADMIN");
+    }
+
+    currentAdmin = data.user;
+
+    showDashboard();
+
+    await loadAdminVotes();
+
+  } catch (error) {
+    console.error("Sign-in failed:", error);
+
+    setMessage(
+      $("loginMessage"),
+      error.message === "NOT_ADMIN"
+        ? t("notAdmin")
+        : t("loginFailed")
+    );
+
+  } finally {
+    $("loginButton").disabled = false;
+    $("adminPassword").value = "";
+  }
+});
+
+$("logoutButton").addEventListener("click", async () => {
+  const { error } = await db.auth.signOut();
+
+  if (error) {
+    setMessage($("loginMessage"), t("signOutFailed"));
+    return;
+  }
+
+  currentAdmin = null;
+
+  showLogin();
+
+  setMessage($("loginMessage"), t("loginRequired"), true);
+});
+
+db.auth.onAuthStateChange((event, session) => {
+  if (event === "SIGNED_OUT") {
+    currentAdmin = null;
+    showLogin();
+  }
+});
+
+/* ----------------------------------------
+   CREATE A DRAFT VOTE
+----------------------------------------- */
+
+$("createVoteForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!currentAdmin) {
+    setMessage($("createMessage"), t("loginRequired"));
+    return;
+  }
+
+  const titleAr = $("titleAr").value.trim();
+  const titleEn = $("titleEn").value.trim();
+
+  const startsRaw = $("startsAt").value;
+  const endsRaw = $("endsAt").value;
+
+  const startsAt = startsRaw
+    ? new Date(startsRaw).toISOString()
+    : null;
+
+  const endsAt = endsRaw
+    ? new Date(endsRaw).toISOString()
+    : null;
+
+  if (
+    startsAt &&
+    endsAt &&
+    new Date(endsAt) <= new Date(startsAt)
+  ) {
+    setMessage($("createMessage"), t("missingDates"));
+    return;
+  }
+
+  const options = $("optionsInput").value
+    .split("\n")
+    .map(line => line.trim())
+    .filter(Boolean)
+    .map(line => {
+      const separator = line.indexOf("|");
+
+      if (separator === -1) return null;
+
+      const labelAr = line.slice(0, separator).trim();
+      const labelEn = line.slice(separator + 1).trim();
+
+      if (!labelAr || !labelEn) return null;
+
+      return {
+        label_ar: labelAr,
+        label_en: labelEn
+      };
+    });
+
+  if (options.length < 2) {
+    setMessage($("createMessage"), t("optionsInvalid"));
+    return;
+  }
+
+  $("createButton").disabled = true;
+  clearMessage($("createMessage"));
+
+  let createdVoteId = null;
+
+  try {
+    const { data: vote, error: voteError } = await db
+      .from("votes")
+      .insert({
+        title_ar: titleAr,
+        title_en: titleEn,
+        description_ar: $("descriptionAr").value.trim(),
+        description_en: $("descriptionEn").value.trim(),
+        kind: $("voteKind").value,
+        status: "draft",
+        starts_at: startsAt,
+        ends_at: endsAt,
+        results_published: false
+      })
+      .select("id")
+      .single();
+
+    if (voteError) throw voteError;
+
+    createdVoteId = vote.id;
+
+    const optionRows = options.map((option, index) => ({
+      vote_id: createdVoteId,
+      label_ar: option.label_ar,
+      label_en: option.label_en,
+      display_order: index
+    }));
+
+    const { error: optionsError } = await db
+      .from("vote_options")
+      .insert(optionRows);
+
+    if (optionsError) {
+      /*
+        Keep the draft if option insertion fails.
+        An administrator can inspect the error and correct it.
+      */
+      throw optionsError;
+    }
+
+    setMessage(
+      $("createMessage"),
+      t("createSuccess"),
+      true
+    );
+
+    $("createVoteForm").reset();
+
+    await loadAdminVotes();
+
+  } catch (error) {
+    console.error("Create vote error:", error);
+
+    setMessage(
+      $("createMessage"),
+      t("createFailed") + " " + (error.message || "")
+    );
+
+  } finally {
+    $("createButton").disabled = false;
+  }
+});
+
+/* ----------------------------------------
+   ADMIN VOTE MANAGEMENT
+----------------------------------------- */
+
+async function loadAdminVotes() {
+  if (!currentAdmin) return;
+
+  $("adminVotesList").textContent = t("loading");
+
+  try {
+    const { data, error } = await db
+      .from("votes")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    $("adminVotesList").innerHTML = "";
+
+    if (!data || !data.length) {
+      $("adminVotesList").textContent = t("noVotes");
+      return;
+    }
+
+    for (const vote of data) {
+      const title = language === "ar"
+        ? vote.title_ar
+        : vote.title_en;
+
+      const article = document.createElement("article");
+      article.className = "vote-card";
+
+      const canOpen = vote.status === "draft" ||
+        vote.status === "scheduled";
+
+      const canClose = vote.status === "open";
+
+      const canPublish =
+        vote.status === "closed" &&
+        vote.results_published !== true;
+
+      article.innerHTML = `
+        <h3>${escapeHtml(title)}</h3>
+
+        <p>
+          <strong>${escapeHtml(t("statusLabel"))}:</strong>
+          ${escapeHtml(statusText(vote.status))}
+        </p>
+
+        <p>
+          ${escapeHtml(t("startsAtLabel"))}:
+          ${escapeHtml(formatDate(vote.starts_at))}
+        </p>
+
+        <p>
+          ${escapeHtml(t("endsAtLabel"))}:
+          ${escapeHtml(formatDate(vote.ends_at))}
+        </p>
+
+        <div class="actions">
+          ${
+            canOpen
+              ? `<button class="green" data-action="open"
+                    data-id="${escapeHtml(vote.id)}">
+                    ${escapeHtml(t("actionOpen"))}
+                 </button>`
+              : ""
+          }
+
+          ${
+            canClose
+              ? `<button class="danger" data-action="close"
+                    data-id="${escapeHtml(vote.id)}">
+                    ${escapeHtml(t("actionClose"))}
+                 </button>`
+              : ""
+          }
+
+          ${
+            canPublish
+              ? `<button class="gold" data-action="publish"
+                    data-id="${escapeHtml(vote.id)}">
+                    ${escapeHtml(t("actionPublish"))}
+                 </button>`
+              : ""
+          }
+        </div>
+
+        <div id="admin-message-${escapeHtml(vote.id)}"></div>
+      `;
+
+      $("adminVotesList").appendChild(article);
+    }
+
+    $("adminVotesList").querySelectorAll("[data-action]")
+      .forEach(button => {
+        button.addEventListener("click", async () => {
+          await changeVoteStatus(
+            button.dataset.id,
+            button.dataset.action
+          );
+        });
+      });
+
+  } catch (error) {
+    console.error("Admin votes error:", error);
+
+    $("adminVotesList").textContent =
+      t("updateFailed") + " " + (error.message || "");
+  }
+}
+
+async function changeVoteStatus(voteId, action) {
+  if (!currentAdmin) return;
+
+  let newStatus;
+  let publishResults = false;
+
+  if (action === "open") {
+    if (!confirm(t("openConfirm"))) return;
+
+    newStatus = "open";
+  } else if (action === "close") {
+    if (!confirm(t("closeConfirm"))) return;
+
+    newStatus = "closed";
+  } else if (action === "publish") {
+    if (!confirm(t("publishConfirm"))) return;
+
+    newStatus = "published";
+    publishResults = true;
+  } else {
+    return;
+  }
+
+  const updateData = {
+    status: newStatus,
+    updated_at: new Date().toISOString()
+  };
+
+  if (publishResults) {
+    updateData.results_published = true;
+  }
+
+  const { error } = await db
+    .from("votes")
+    .update(updateData)
+    .eq("id", voteId);
+
+  if (error) {
+    console.error("Status update error:", error);
+
+    const message = $("admin-message-" + voteId);
+
+    if (message) {
+      setMessage(
+        message,
+        t("updateFailed") + " " + error.message
+      );
+    }
+
+    return;
+  }
+
+  await loadAdminVotes();
+  await loadPublicVotes();
+}
+
+$("refreshButton").addEventListener("click", loadAdminVotes);
+
+/* ----------------------------------------
+   STARTUP
+----------------------------------------- */
+
+async function initializePortal() {
+  try {
+    await loadPublicVotes();
+
+    if (location.hash === "#admin") {
+      showAdmin();
+      await checkSession();
+    } else {
+      showPublic();
+    }
+  } catch (error) {
+    console.error("Portal initialization error:", error);
+  }
+}
+
+initializePortal();
 </script>
+
 </body>
 </html>
