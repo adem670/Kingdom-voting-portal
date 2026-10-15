@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بوابة التصويت | مملكة PeaceLand</title>
+  <style>
+    :root {
+      --green: #123f32;
+      --gold: #c6a45a;
+      --cream: #f7f3e8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Tahoma, sans-serif;
+      background: var(--cream);
+      color: #20332a;
+      line-height: 1.7;
+    }
+
+    header {
+      background: var(--green);
+      color: white;
+      padding: 18px 6%;
+      border-bottom: 4px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    header h2 {
+      margin: 0;
+      font-size: 21px;
+    }
+
+    button {
+      border: none;
+      padding: 11px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .gold {
+      background: var(--gold);
+      color: #17271f;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #123f32, #28684e);
+      color: white;
+      text-align: center;
+      padding: 75px 20px;
+    }
+
+    .hero h1 {
+      font-size: clamp(30px, 5vw, 45px);
+      margin: 0 0 18px;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: 0 auto 25px;
+      color: #e7eee9;
+      font-size: 18px;
+    }
+
+    main {
+      width: min(1100px, 90%);
+      margin: 35px auto;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .stat, .card {
+      background: white;
+      border: 1px solid #e7dfcd;
+      border-radius: 13px;
+      padding: 23px;
+      box-shadow: 0 5px 20px #00000008;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--green);
+      font-size: 30px;
+    }
+
+    h2 {
+      color: var(--green);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .card h3 {
+      color: var(--green);
+    }
+
+    .badge {
+      background: #e5f1e7;
+      color: #24613b;
+      display: inline-block;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 13px;
+    }
+
+    .notice {
+      margin-top: 25px;
+      background: #fff7e4;
+      border: 1px solid #e8d5a4;
+      border-radius: 10px;
+      padding: 15px;
+      font-size: 14px;
+    }
+
+    footer {
+      margin-top: 50px;
+      background: #0d3026;
+      color: white;
+      padding: 25px;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 650px) {
+      .stats, .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 50px 18px;
+      }
+
+      header {
+        padding: 15px 5%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h2 id="brand">👑 مملكة PeaceLand</h2>
+  <div>
+    <button class="gold" onclick="changeLanguage()" id="languageButton">
+      English
+    </button>
+    <button onclick="showAdmin()" id="adminButton">
+      دخول الإدارة
+    </button>
+  </div>
+</header>
+
+<div id="publicPage">
+
+  <section class="hero">
+    <h1 id="title">صوتك يساهم في رسم مستقبل المملكة</h1>
+    <p id="description">
+      تابع التصويتات والاستفتاءات المنشورة، واطّلع على النتائج الرسمية،
+      وشارك عندما يكون التصويت مفتوحًا.
+    </p>
+    <button class="gold" onclick="scrollToVotes()" id="voteButton">
+      استعرض التصويتات
+    </button>
+  </section>
+
+  <main>
+    <div class="stats">
+      <div class="stat">
+        <strong>0</strong>
+        <span id="openLabel">تصويتات مفتوحة</span>
+      </div>
+
+      <div class="stat">
+        <strong>0</strong>
+        <span id="resultsLabel">نتائج منشورة</span>
+      </div>
+
+      <div class="stat">
+        <strong id="accessValue">متاحة للجميع</strong>
+        <span id="accessLabel">الاطلاع على المعلومات المنشورة</span>
+      </div>
+    </div>
+
+    <section id="votes">
+      <h2 id="votesTitle">🗳️ التصويتات والاستفتاءات</h2>
+
+      <div class="cards">
+        <article class="card">
+          <span class="badge" id="status">لا توجد تصويتات منشورة</span>
+          <h3 id="emptyTitle">مرحبًا بكم في بوابة التصويت</h3>
+          <p id="emptyDescription">
+            ستظهر هنا التصويتات والاستفتاءات الرسمية بعد نشرها من الإدارة.
+          </p>
+        </article>
+
+        <article class="card">
+          <span class="badge" id="archiveBadge">الأرشيف</span>
+          <h3 id="archiveTitle">أرشيف التصويتات</h3>
+          <p id="archiveDescription">
+            ستُعرض هنا التصويتات السابقة ونتائجها المنشورة.
+          </p>
+        </article>
+      </div>
+
+      <div class="notice" id="notice">
+        هذه النسخة واجهة أولية. التصويت الفعلي والنتائج وتسجيل الدخول
+        تحتاج إلى ربط قاعدة بيانات آمنة قبل استخدامها.
+      </div>
+    </section>
+  </main>
+
+</div>
+
+<div id="adminPage" class="hidden">
+  <main>
+    <button onclick="hideAdmin()" id="backButton">العودة إلى الموقع</button>
+    <section class="card">
+      <h2 id="adminTitle">🔐 لوحة الإدارة</h2>
+      <p id="adminDescription">
+        سيتم تجهيز تسجيل الدخول وإدارة التصويتات في المرحلة التالية.
+      </p>
+      <div class="notice" id="securityNotice">
+        تسجيل الدخول غير مفعّل بعد. لا تدخل كلمة مرور حقيقية في هذه النسخة.
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <p id="footerText">
+    © مملكة PeaceLand — بوابة التصويت والاستفتاءات
+  </p>
+  <small id="footerNote">نسخة أولية قيد التطوير</small>
+</footer>
+
+<script>
+  let language = "ar";
+
+  function changeLanguage() {
+    language = language === "ar" ? "en" : "ar";
+
+    document.documentElement.lang = language;
+    document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+
+    const text = {
+      ar: {
+        brand: "👑 مملكة PeaceLand",
+        languageButton: "English",
+        adminButton: "دخول الإدارة",
+        title: "صوتك يساهم في رسم مستقبل المملكة",
+        description: "تابع التصويتات والاستفتاءات المنشورة، واطّلع على النتائج الرسمية، وشارك عندما يكون التصويت مفتوحًا.",
+        voteButton: "استعرض التصويتات",
+        openLabel: "تصويتات مفتوحة",
+        resultsLabel: "نتائج منشورة",
+        accessValue: "متاحة للجميع",
+        accessLabel: "الاطلاع على المعلومات المنشورة",
+        votesTitle: "🗳️ التصويتات والاستفتاءات",
+        status: "لا توجد تصويتات منشورة",
+        emptyTitle: "مرحبًا بكم في بوابة التصويت",
+        emptyDescription: "ستظهر هنا التصويتات والاستفتاءات الرسمية بعد نشرها من الإدارة.",
+        archiveBadge: "الأرشيف",
+        archiveTitle: "أرشيف التصويتات",
+        archiveDescription: "ستُعرض هنا التصويتات السابقة ونتائجها المنشورة.",
+        notice: "هذه النسخة واجهة أولية. التصويت الفعلي والنتائج وتسجيل الدخول تحتاج إلى ربط قاعدة بيانات آمنة قبل استخدامها.",
+        backButton: "العودة إلى الموقع",
+        adminTitle: "🔐 لوحة الإدارة",
+        adminDescription: "سيتم تجهيز تسجيل الدخول وإدارة التصويتات في المرحلة التالية.",
+        securityNotice: "تسجيل الدخول غير مفعّل بعد. لا تدخل كلمة مرور حقيقية في هذه النسخة.",
+        footerText: "© مملكة PeaceLand — بوابة التصويت والاستفتاءات",
+        footerNote: "نسخة أولية قيد التطوير"
+      },
+      en: {
+        brand: "👑 Kingdom of PeaceLand",
+        languageButton: "العربية",
+        adminButton: "Admin sign-in",
+        title: "Your voice helps shape the Kingdom's future",
+        description: "Explore published votes and referendums, review official results, and participate when voting is open.",
+        voteButton: "Explore votes",
+        openLabel: "Open votes",
+        resultsLabel: "Published results",
+        accessValue: "Public access",
+        accessLabel: "Published information",
+        votesTitle: "🗳️ Votes & Referendums",
+        status: "No published votes",
+        emptyTitle: "Welcome to the Voting Portal",
+        emptyDescription: "Official votes and referendums will appear here after publication.",
+        archiveBadge: "Archive",
+        archiveTitle: "Voting archive",
+        archiveDescription: "Previous votes and published results will appear here.",
+        notice: "This is an initial interface. Actual voting, results, and sign-in require a secure database before use.",
+        backButton: "Return to portal",
+        adminTitle: "🔐 Administration",
+        adminDescription: "Sign-in and vote management will be configured in the next stage.",
+        securityNotice: "Sign-in is not active yet. Do not enter a real password in this version.",
+        footerText: "© Kingdom of PeaceLand — Voting & Referendum Portal",
+        footerNote: "Initial version in development"
+      }
+    };
+
+    Object.keys(text[language]).forEach(id => {
+      const element = document.getElementById(id);
+      if (element) element.textContent = text[language][id];
+    });
+  }
+
+  function showAdmin() {
+    document.getElementById("publicPage").classList.add("hidden");
+    document.getElementById("adminPage").classList.remove("hidden");
+    location.hash = "admin";
+  }
+
+  function hideAdmin() {
+    document.getElementById("adminPage").classList.add("hidden");
+    document.getElementById("publicPage").classList.remove("hidden");
+    history.replaceState(null, "", location.pathname);
+  }
+
+  function scrollToVotes() {
+    document.getElementById("votes").scrollIntoView({
+      behavior: "smooth"
+    });
+  }
+
+  if (location.hash === "#admin") {
+    showAdmin();
+  }
+</script>
+
+</body>
+</html>
