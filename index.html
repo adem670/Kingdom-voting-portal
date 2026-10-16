@@ -2,20 +2,25 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>التصويت الملكي | مملكة PeaceLand</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#123f2b">
+
+  <title>بوابة التصويت الملكية | مملكة أرض السلام</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root {
-      --green: #103d2b;
-      --green2: #18553b;
-      --gold: #d7b45a;
-      --cream: #f7f3e7;
+      --green: #18553b;
+      --green-dark: #103923;
+      --gold: #d8b35b;
+      --cream: #f7f4e9;
       --white: #ffffff;
-      --text: #20342a;
-      --red: #a83232;
+      --text: #243329;
+      --muted: #69766d;
+      --red: #a93232;
+      --border: #dce4dc;
+      --shadow: 0 5px 20px rgba(16, 57, 35, 0.08);
     }
 
     * {
@@ -24,641 +29,1012 @@
 
     body {
       margin: 0;
-      font-family: Tahoma, Arial, sans-serif;
       background: var(--cream);
       color: var(--text);
+      font-family: Arial, Tahoma, sans-serif;
       line-height: 1.8;
     }
 
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     header {
-      background: linear-gradient(135deg, #103d2b, #071f16);
       color: white;
+      background: linear-gradient(135deg, var(--green-dark), var(--green));
+      border-bottom: 4px solid var(--gold);
+      padding: 28px 16px;
       text-align: center;
-      padding: 30px 15px;
-      border-bottom: 5px solid var(--gold);
     }
 
     .crown {
-      font-size: 42px;
+      font-size: 38px;
     }
 
     header h1 {
-      color: var(--gold);
-      margin: 5px 0;
+      margin: 4px 0;
+      font-size: clamp(24px, 4vw, 36px);
     }
 
     header p {
-      margin: 5px;
+      margin: 4px 0;
+      color: #f2dfaa;
     }
 
-    nav {
-      background: var(--green2);
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding: 12px;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      padding: 8px 12px;
-      border-radius: 8px;
-    }
-
-    nav a:hover {
-      background: #ffffff20;
-    }
-
-    main {
+    .container {
       max-width: 1050px;
-      margin: 25px auto;
-      padding: 0 15px;
+      width: calc(100% - 28px);
+      margin: 25px auto 50px;
     }
 
-    .hero {
-      text-align: center;
-      padding: 25px 15px;
-      background: #e9e0c5;
-      border-radius: 15px;
-      margin-bottom: 22px;
-    }
-
-    .hero h2 {
-      color: var(--green);
-    }
-
-    .card {
+    .intro {
       background: var(--white);
-      border: 1px solid #e5dfcf;
-      border-radius: 15px;
-      padding: 22px;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      border-right: 5px solid var(--gold);
       margin-bottom: 22px;
-      box-shadow: 0 4px 15px #00000008;
     }
 
-    h2, h3 {
+    .intro h2 {
       color: var(--green);
+      margin-top: 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .section {
+      background: var(--white);
+      padding: 22px;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      margin-bottom: 22px;
+      min-width: 0;
+    }
+
+    .section h2,
+    .section h3 {
+      color: var(--green);
+      margin-top: 0;
+    }
+
+    .section-title {
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 10px;
+      margin-bottom: 18px;
     }
 
     label {
       display: block;
+      margin: 12px 0 5px;
       font-weight: bold;
-      margin-top: 12px;
     }
 
-    input, select, textarea {
+    input,
+    select,
+    textarea {
+      display: block;
       width: 100%;
-      padding: 12px;
-      border: 1px solid #c8c8c8;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
       border-radius: 8px;
-      font: inherit;
-      margin-top: 5px;
       background: white;
+      color: var(--text);
     }
 
-    button {
-      font: inherit;
-      font-weight: bold;
-      padding: 11px 18px;
-      border: none;
-      border-radius: 8px;
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid #a9cfb6;
+      border-color: var(--green);
+    }
+
+    button,
+    .button {
+      display: inline-block;
+      border: 0;
       background: var(--green);
       color: white;
-      cursor: pointer;
-      margin: 8px 4px 0 0;
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin-top: 12px;
+      font-weight: bold;
+      text-decoration: none;
     }
 
-    button:hover {
-      background: var(--green2);
+    button:hover,
+    .button:hover {
+      background: var(--green-dark);
     }
 
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+    button.secondary {
+      background: #e8efe9;
+      color: var(--green-dark);
+      border: 1px solid var(--border);
     }
 
-    .gold-button {
-      background: #a98226;
-      color: white;
+    button.secondary:hover {
+      background: #dce8df;
     }
 
-    .danger {
+    button.danger {
       background: var(--red);
     }
 
-    .vote-card {
-      border: 1px solid #ded5b8;
-      padding: 17px;
-      border-radius: 12px;
-      margin: 15px 0;
-      background: #fffefa;
-    }
-
-    .option {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 10px;
-      margin: 8px 0;
-      cursor: pointer;
-    }
-
-    .option input {
-      width: auto;
-      margin: 0;
+    button.gold {
+      background: #9a7521;
     }
 
     .muted {
-      color: #66736b;
+      color: var(--muted);
       font-size: 14px;
     }
 
     .message {
       margin-top: 12px;
-      font-weight: bold;
+      padding: 10px 12px;
+      border-radius: 8px;
       overflow-wrap: anywhere;
     }
 
-    .success {
-      color: #17683b;
+    .message:empty {
+      display: none;
     }
 
-    .error {
-      color: #a32222;
+    .message.success {
+      background: #e5f5e9;
+      color: #14572c;
+      border: 1px solid #b8dec1;
     }
 
-    .number-box {
-      padding: 16px;
-      background: #f8f0d9;
-      border: 2px dashed var(--gold);
-      border-radius: 12px;
-      text-align: center;
-      margin-top: 15px;
+    .message.error {
+      background: #fff0f0;
+      color: #8c2424;
+      border: 1px solid #e9bcbc;
     }
 
-    .number {
-      font-size: 22px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      direction: ltr;
-      display: inline-block;
-      color: var(--green);
-      overflow-wrap: anywhere;
+    .message.info {
+      background: #edf4f9;
+      color: #204b67;
+      border: 1px solid #c8dce9;
     }
 
     .hidden {
       display: none !important;
     }
 
-    .admin-tools {
-      background: #f3f6f2;
-      padding: 15px;
+    .vote-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin: 14px 0;
+      overflow-wrap: anywhere;
+    }
+
+    .vote-card h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: #edf1ed;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .status.open {
+      color: #14572c;
+      background: #e1f4e5;
+    }
+
+    .status.closed {
+      color: #8c2424;
+      background: #ffeded;
+    }
+
+    .status.published {
+      color: #214c74;
+      background: #e6f1fb;
+    }
+
+    .choice {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 9px;
+      cursor: pointer;
+    }
+
+    .choice input {
+      width: auto;
+      margin: 0;
+      flex-shrink: 0;
+    }
+
+    .choice:has(input:checked) {
+      border-color: var(--green);
+      background: #f0f7f1;
+    }
+
+    .number-box {
+      background: #f0f7f1;
+      border: 1px dashed var(--green);
       border-radius: 10px;
-      margin-top: 12px;
+      padding: 15px;
+      margin-top: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    .voter-number {
+      font-size: 23px;
+      font-weight: bold;
+      color: var(--green);
+      direction: ltr;
+      display: inline-block;
+      letter-spacing: 1px;
+    }
+
+    .stats-total {
+      background: linear-gradient(135deg, var(--green-dark), var(--green));
+      color: white;
+      padding: 22px;
+      border-radius: 12px;
+      margin: 12px 0 18px;
+      text-align: center;
+    }
+
+    .stats-total h3 {
+      color: white;
+      margin: 0;
+    }
+
+    .stats-total .number {
+      display: block;
+      font-size: 38px;
+      font-weight: bold;
+      color: #f2dfaa;
+      line-height: 1.5;
+    }
+
+    .progress {
+      width: 100%;
+      height: 14px;
+      border-radius: 10px;
+      background: #e5e9e5;
+      overflow: hidden;
+      margin: 10px 0 5px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      background: var(--green);
+      transition: width 0.3s ease;
+    }
+
+    .admin-tools {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-top: 20px;
+    }
+
+    .admin-tools h3 {
+      margin-top: 0;
+    }
+
+    .admin-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .admin-actions button {
+      margin-top: 6px;
+    }
+
+    .admin-actions select {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .option-line {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
     footer {
-      background: var(--green);
-      color: white;
       text-align: center;
-      padding: 22px;
-      border-top: 4px solid var(--gold);
-      margin-top: 40px;
+      background: var(--green-dark);
+      color: white;
+      padding: 22px 12px;
+      border-top: 3px solid var(--gold);
     }
 
-    @media (max-width: 600px) {
-      .card {
-        padding: 15px;
+    footer p {
+      margin: 4px;
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid var(--border);
+      margin: 20px 0;
+    }
+
+    @media (max-width: 720px) {
+      .grid {
+        grid-template-columns: 1fr;
       }
 
-      header h1 {
-        font-size: 23px;
+      .section {
+        padding: 17px;
+      }
+
+      .option-line {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .admin-actions {
+        align-items: stretch;
+      }
+
+      .admin-actions button {
+        width: 100%;
+      }
+
+      .voter-number {
+        font-size: 20px;
       }
     }
   </style>
 </head>
 
 <body>
+  <header>
+    <div class="crown" aria-hidden="true">👑</div>
+    <h1>بوابة التصويت الملكية</h1>
+    <p>مملكة أرض السلام</p>
+    <p>المشاركة المواطنة — الشفافية — المسؤولية</p>
+  </header>
 
-<header>
-  <div class="crown">👑</div>
-  <h1>مملكة PeaceLand</h1>
-  <p>الإدارة الملكية للانتخابات والاستفتاءات</p>
-  <p>نظام التصويت الملكي الإلكتروني</p>
-</header>
-
-<nav>
-  <a href="#home">الرئيسية</a>
-  <a href="#registration">تسجيل المواطنين</a>
-  <a href="#elections">التصويت</a>
-  <a href="#results">النتائج</a>
-  <a href="#admin">الإدارة الملكية</a>
-</nav>
-
-<main>
-
-  <section class="hero" id="home">
-    <h2>مرحبًا بكم في نظام التصويت الملكي</h2>
-    <p>
-      منصة مملكة PeaceLand للاستفتاءات والتصويت الإلكتروني.
-    </p>
-    <p>
-      سجّل اسمك للحصول على رقم ناخب ملكي، ثم استعمله للمشاركة
-      في التصويتات المفتوحة.
-    </p>
-  </section>
-
-  <!-- تسجيل المواطن -->
-
-  <section class="card" id="registration">
-    <h2>🪪 تسجيل المواطن في سجل الناخبين</h2>
-
-    <p>
-      أدخل اسمك الكامل للحصول على رقم ناخب ملكي.
-    </p>
-
-    <form id="registrationForm">
-      <label for="fullName">الاسم الكامل</label>
-      <input
-        id="fullName"
-        type="text"
-        minlength="2"
-        maxlength="100"
-        autocomplete="name"
-        placeholder="اكتب اسمك الكامل"
-        required
-      >
-
-      <button type="submit" id="registerButton">
-        إنشاء رقم الناخب
-      </button>
-    </form>
-
-    <div id="registrationMessage" class="message" aria-live="polite"></div>
-
-    <div id="numberResult" class="number-box hidden">
-      <h3>👑 تم إنشاء رقم الناخب</h3>
-      <p>احتفظ بهذا الرقم في مكان آمن.</p>
-
-      <div id="voterNumber" class="number"></div>
-
-      <br>
-
-      <button type="button" id="copyNumberButton" class="gold-button">
-        نسخ رقم الناخب
-      </button>
-
-      <p class="muted">
-        إذا فقدت الرقم، لا تسجّل اسمًا جديدًا للحصول على رقم آخر.
-        يلزم تطوير آلية استرجاع آمنة.
+  <main class="container">
+    <section class="intro">
+      <h2>مرحبًا بكم في بوابة التصويت الملكية</h2>
+      <p>
+        تتيح هذه البوابة للمواطنين التسجيل والمشاركة في الاستفتاءات
+        المنشورة من قبل إدارة المملكة.
       </p>
-    </div>
+      <p class="muted">
+        يرجى الاحتفاظ برقم الناخب وعدم مشاركته مع الآخرين.
+        هذه البوابة نموذج إلكتروني للمشاركة، ولا تُعد نظامًا رسميًا
+        للتحقق من الهوية في الانتخابات الواقعية.
+      </p>
+    </section>
 
-    <p class="muted">
-      تنبيه: الاسم وحده لا يثبت الهوية، وقد يتمكن الشخص من إنشاء
-      أرقام متعددة. هذا النظام نموذج تجريبي لمملكة افتراضية.
-    </p>
-  </section>
+    <div class="grid">
+      <!-- تسجيل المواطن -->
+      <section class="section">
+        <h2 class="section-title">📝 تسجيل المواطن</h2>
 
-  <!-- التصويت -->
+        <p>
+          أدخل اسمك لإنشاء رقم ناخب خاص بك.
+        </p>
 
-  <section class="card" id="elections">
-    <h2>🗳️ التصويتات المفتوحة</h2>
-
-    <p class="muted">
-      أدخل رقم الناخب الملكي الذي حصلت عليه عند التسجيل.
-    </p>
-
-    <button type="button" id="refreshVotesButton">
-      تحديث قائمة التصويتات
-    </button>
-
-    <div id="votesList">
-      جارٍ تحميل التصويتات...
-    </div>
-
-    <div id="voteMessage" class="message" aria-live="polite"></div>
-  </section>
-
-  <!-- النتائج المنشورة -->
-
-  <section class="card" id="results">
-    <h2>📊 النتائج المنشورة</h2>
-    <div id="resultsList">جارٍ تحميل النتائج...</div>
-  </section>
-
-  <!-- الإدارة الملكية -->
-
-  <section class="card" id="admin">
-    <h2>👑 الإدارة الملكية</h2>
-
-    <p>
-      هذا القسم مخصص للمسؤول المخوّل بإدارة التصويتات.
-    </p>
-
-    <div id="adminLogin">
-      <h3>تسجيل دخول الإدارة</h3>
-
-      <form id="adminLoginForm">
-        <label for="adminEmail">البريد الإلكتروني</label>
-        <input
-          type="email"
-          id="adminEmail"
-          autocomplete="username"
-          required
-        >
-
-        <label for="adminPassword">كلمة المرور</label>
-        <input
-          type="password"
-          id="adminPassword"
-          autocomplete="current-password"
-          required
-        >
-
-        <button type="submit">دخول الإدارة</button>
-      </form>
-
-      <div id="adminLoginMessage" class="message" aria-live="polite"></div>
-    </div>
-
-    <div id="adminPanel" class="hidden">
-
-      <p class="success">تم تسجيل دخول الإدارة.</p>
-
-      <button type="button" id="logoutButton" class="danger">
-        تسجيل الخروج
-      </button>
-
-      <div class="admin-tools">
-        <h3>إنشاء استفتاء جديد</h3>
-
-        <form id="createVoteForm">
-          <label for="voteTitle">عنوان الاستفتاء</label>
+        <form id="registrationForm">
+          <label for="fullName">الاسم الكامل</label>
           <input
-            id="voteTitle"
+            id="fullName"
             type="text"
-            maxlength="200"
+            minlength="2"
+            maxlength="100"
+            autocomplete="name"
             required
+            placeholder="أدخل الاسم الكامل"
           >
 
-          <label for="voteDescription">وصف الاستفتاء</label>
-          <textarea id="voteDescription" rows="3"></textarea>
-
-          <label for="voteStart">تاريخ ووقت البداية</label>
-          <input type="datetime-local" id="voteStart">
-
-          <label for="voteEnd">تاريخ ووقت النهاية</label>
-          <input type="datetime-local" id="voteEnd">
-
-          <button type="submit">إنشاء الاستفتاء</button>
+          <button id="registerButton" type="submit">
+            التسجيل وإنشاء رقم الناخب
+          </button>
         </form>
 
-        <div id="createVoteMessage" class="message" aria-live="polite"></div>
-      </div>
+        <div
+          id="registrationMessage"
+          class="message"
+          aria-live="polite"
+        ></div>
 
-      <div class="admin-tools">
-        <h3>إدارة الاستفتاءات</h3>
-        <button type="button" id="refreshAdminButton">
-          تحديث القائمة
+        <div id="voterNumberBox" class="number-box hidden">
+          <p>تم إنشاء رقم الناخب بنجاح:</p>
+          <div id="generatedVoterNumber" class="voter-number"></div>
+          <br>
+          <button id="copyNumberButton" class="secondary" type="button">
+            نسخ رقم الناخب
+          </button>
+          <p class="muted">
+            احتفظ بهذا الرقم. لا يمكن استخدام الرقم نفسه للتصويت
+            أكثر من مرة في الاستفتاء ذاته.
+          </p>
+        </div>
+      </section>
+
+      <!-- قائمة التصويت -->
+      <section class="section">
+        <h2 class="section-title">🗳️ الاستفتاءات</h2>
+
+        <p>
+          اختر استفتاءً مفتوحًا للمشاركة فيه.
+        </p>
+
+        <button id="refreshVotesButton" class="secondary" type="button">
+          🔄 تحديث الاستفتاءات
         </button>
-        <div id="adminVotesList"></div>
-      </div>
+
+        <div id="votesMessage" class="message" aria-live="polite"></div>
+        <div id="votesList"></div>
+      </section>
     </div>
-  </section>
 
-</main>
+    <!-- النتائج العامة -->
+    <section class="section">
+      <h2 class="section-title">📊 النتائج المنشورة للعموم</h2>
 
-<footer>
-  <div>👑 مملكة PeaceLand</div>
-  <div>الإدارة الملكية للانتخابات والاستفتاءات</div>
-  <div class="muted" style="color:#e7e7d9">
-    منصة تجريبية للتصويت الإلكتروني
-  </div>
-</footer>
+      <p class="muted">
+        تظهر النتائج هنا بعد إغلاق التصويت والسماح بنشر النتائج من الإدارة.
+      </p>
 
-<script>
-  "use strict";
+      <button id="refreshPublicResultsButton" class="secondary" type="button">
+        تحديث النتائج المنشورة
+      </button>
 
-  // إعداد اتصال Supabase
-  const SUPABASE_URL =
-    "https://ltfxhxgfbnghnkqvpupk.supabase.co";
+      <div
+        id="publicResultsMessage"
+        class="message"
+        aria-live="polite"
+      ></div>
 
-  const SUPABASE_KEY =
-    "sb_publishable_azSmiAqplIGdLCdJEfwf-A_eaxMWEJ-";
+      <div id="publicResultsList"></div>
+    </section>
 
-  const db = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+    <!-- الإدارة -->
+    <section class="section" id="administration">
+      <h2 class="section-title">🔐 الإدارة الملكية</h2>
 
-  const fixedOptions = [
-    { label_ar: "نعم", label_en: "Yes" },
-    { label_ar: "لا", label_en: "No" },
-    {
-      label_ar: "الامتناع عن التصويت",
-      label_en: "Abstain"
-    }
-  ];
+      <div id="adminLogin">
+        <p>
+          هذا القسم مخصص للمسؤولين المعتمدين فقط.
+        </p>
 
-  let isAdmin = false;
+        <form id="adminLoginForm">
+          <label for="adminEmail">البريد الإلكتروني للإدارة</label>
+          <input
+            id="adminEmail"
+            type="email"
+            autocomplete="username"
+            required
+            placeholder="البريد الإلكتروني"
+          >
 
-  const $ = (id) => document.getElementById(id);
+          <label for="adminPassword">كلمة المرور</label>
+          <input
+            id="adminPassword"
+            type="password"
+            autocomplete="current-password"
+            required
+            placeholder="كلمة المرور"
+          >
 
-  function showMessage(id, message, isError = false) {
-    const element = $(id);
-    element.textContent = message;
-    element.className = "message " + (isError ? "error" : "success");
-  }
+          <button id="adminLoginButton" type="submit">
+            تسجيل الدخول
+          </button>
+        </form>
 
-  function escapeHTML(value) {
-    return String(value ?? "").replace(/[&<>"']/g, (character) => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;"
-    })[character]);
-  }
+        <div
+          id="adminLoginMessage"
+          class="message"
+          aria-live="polite"
+        ></div>
+      </div>
 
-  function formatDate(value) {
-    if (!value) return "غير محدد";
+      <div id="adminPanel" class="hidden">
+        <div class="message success">
+          تم تسجيل الدخول إلى الإدارة الملكية.
+        </div>
 
-    const date = new Date(value);
+        <button id="logoutButton" class="danger" type="button">
+          تسجيل الخروج
+        </button>
 
-    if (Number.isNaN(date.getTime())) {
-      return "غير محدد";
-    }
+        <!-- إحصائيات سرية -->
+        <div class="admin-tools">
+          <h3>📊 إحصائيات التصويت — للإدارة فقط</h3>
 
-    return date.toLocaleString("ar-TN");
-  }
+          <p class="muted">
+            تعرض هذه اللوحة الإحصائيات الداخلية قبل نشر النتائج للعموم.
+            لا تظهر هذه البيانات للزوار غير المسجلين كمسؤولين.
+          </p>
 
-  function statusLabel(status) {
-    const labels = {
-      draft: "مسودة",
-      scheduled: "مجدول",
-      open: "مفتوح",
-      closed: "مغلق",
-      published: "النتائج منشورة"
-    };
+          <label for="statisticsVoteSelect">اختر الاستفتاء</label>
+          <select id="statisticsVoteSelect">
+            <option value="">جارٍ تحميل الاستفتاءات...</option>
+          </select>
 
-    return labels[status] || status;
-  }
+          <button id="refreshStatisticsButton" type="button">
+            🔄 تحديث الإحصائيات
+          </button>
 
-  // تسجيل المواطن وتوليد رقم الناخب
-  $("registrationForm").addEventListener("submit", async (event) => {
-    event.preventDefault();
+          <div
+            id="statisticsMessage"
+            class="message"
+            aria-live="polite"
+          ></div>
 
-    const button = $("registerButton");
-    const name = $("fullName").value.trim();
+          <div id="statisticsPanel" class="hidden">
+            <div class="stats-total">
+              <h3>مجموع الأصوات المسجلة</h3>
+              <span id="statisticsTotal" class="number">0</span>
+              <span>صوت</span>
+            </div>
 
-    $("numberResult").classList.add("hidden");
+            <div id="statisticsOptions"></div>
+          </div>
+        </div>
 
-    if (name.length < 2 || name.length > 100) {
-      showMessage(
-        "registrationMessage",
-        "يرجى إدخال اسم صحيح.",
-        true
-      );
-      return;
-    }
+        <!-- إنشاء استفتاء -->
+        <div class="admin-tools">
+          <h3>➕ إنشاء استفتاء جديد</h3>
 
-    button.disabled = true;
+          <form id="createVoteForm">
+            <label for="newTitleAr">عنوان الاستفتاء بالعربية</label>
+            <input
+              id="newTitleAr"
+              type="text"
+              maxlength="250"
+              required
+              placeholder="عنوان الاستفتاء"
+            >
 
-    showMessage(
-      "registrationMessage",
-      "جارٍ إنشاء رقم الناخب..."
+            <label for="newTitleEn">عنوان الاستفتاء بالإنجليزية</label>
+            <input
+              id="newTitleEn"
+              type="text"
+              maxlength="250"
+              placeholder="Vote title"
+            >
+
+            <label for="newDescriptionAr">الوصف بالعربية</label>
+            <textarea
+              id="newDescriptionAr"
+              rows="3"
+              maxlength="3000"
+              placeholder="تفاصيل الاستفتاء"
+            ></textarea>
+
+            <label for="newDescriptionEn">الوصف بالإنجليزية</label>
+            <textarea
+              id="newDescriptionEn"
+              rows="3"
+              maxlength="3000"
+              placeholder="Vote description"
+            ></textarea>
+
+            <label for="newVoteKind">نوع الاستفتاء</label>
+            <select id="newVoteKind">
+              <option value="referendum">استفتاء</option>
+              <option value="election">انتخاب</option>
+              <option value="other">أخرى</option>
+            </select>
+
+            <div class="option-line">
+              <div>
+                <label for="newStartsAt">موعد بداية التصويت</label>
+                <input id="newStartsAt" type="datetime-local">
+              </div>
+
+              <div>
+                <label for="newEndsAt">موعد نهاية التصويت</label>
+                <input id="newEndsAt" type="datetime-local">
+              </div>
+            </div>
+
+            <p class="muted">
+              يُنشأ الاستفتاء في حالة مسودة. بعد الإنشاء،
+              يمكنك تغيير حالته من قسم إدارة الاستفتاءات.
+            </p>
+
+            <button id="createVoteButton" type="submit">
+              إنشاء الاستفتاء
+            </button>
+          </form>
+
+          <div
+            id="createVoteMessage"
+            class="message"
+            aria-live="polite"
+          ></div>
+        </div>
+
+        <!-- إدارة الاستفتاءات -->
+        <div class="admin-tools">
+          <h3>⚙️ إدارة الاستفتاءات</h3>
+
+          <button id="refreshAdminButton" class="secondary" type="button">
+            تحديث القائمة
+          </button>
+
+          <div
+            id="adminVotesMessage"
+            class="message"
+            aria-live="polite"
+          ></div>
+
+          <div id="adminVotesList"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>👑 مملكة أرض السلام</p>
+    <p>بوابة التصويت الملكية</p>
+    <p class="muted">الموقع الإلكتروني للمشاركة المواطنة</p>
+  </footer>
+
+  <script>
+    "use strict";
+
+    // =========================================================
+    // إعداد الاتصال بـ Supabase
+    // =========================================================
+
+    const SUPABASE_URL =
+      "https://ltfxhxgfbnghnkqvpupk.supabase.co";
+
+    const SUPABASE_PUBLIC_KEY =
+      "sb_publishable_azSmiAqplIGdLCdJEfwf-A_eaxMWEJ-";
+
+    const db = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLIC_KEY
     );
 
-    try {
-      const { data, error } = await db.rpc(
-        "register_kingdom_voter",
-        { p_full_name: name }
-      );
+    const $ = (id) => document.getElementById(id);
 
-      if (error) throw error;
+    let isAdmin = false;
 
-      if (!data || !data.success || !data.voter_number) {
-        throw new Error("لم يتم استلام رقم الناخب.");
+    const FIXED_OPTIONS = [
+      { display_order: 1, label_ar: "نعم", label_en: "Yes" },
+      { display_order: 2, label_ar: "لا", label_en: "No" },
+      {
+        display_order: 3,
+        label_ar: "الامتناع عن التصويت",
+        label_en: "Abstain"
+      }
+    ];
+
+    // =========================================================
+    // وظائف عامة
+    // =========================================================
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => {
+        const entities = {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;"
+        };
+
+        return entities[char];
+      });
+    }
+
+    function showMessage(id, message, isError = false) {
+      const element = $(id);
+
+      if (!element) return;
+
+      element.textContent = message || "";
+      element.className = "message";
+
+      if (!message) return;
+
+      element.classList.add(isError ? "error" : "success");
+    }
+
+    function formatDate(value) {
+      if (!value) return "غير محدد";
+
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        return "غير محدد";
       }
 
-      $("voterNumber").textContent = data.voter_number;
-      $("numberResult").classList.remove("hidden");
-
-      showMessage(
-        "registrationMessage",
-        "تم التسجيل بنجاح. احتفظ برقم الناخب."
-      );
-
-      $("fullName").value = "";
-
-    } catch (error) {
-      console.error(error);
-
-      showMessage(
-        "registrationMessage",
-        "تعذّر التسجيل. يرجى المحاولة مجددًا.",
-        true
-      );
-    } finally {
-      button.disabled = false;
+      return date.toLocaleString("ar-TN", {
+        dateStyle: "medium",
+        timeStyle: "short"
+      });
     }
-  });
 
-  $("copyNumberButton").addEventListener("click", async () => {
-    const number = $("voterNumber").textContent;
+    function statusLabel(status) {
+      const labels = {
+        draft: "مسودة",
+        scheduled: "مجدول",
+        open: "مفتوح للتصويت",
+        closed: "مغلق",
+        published: "النتائج منشورة"
+      };
 
-    try {
-      await navigator.clipboard.writeText(number);
-
-      showMessage(
-        "registrationMessage",
-        "تم نسخ رقم الناخب."
-      );
-    } catch {
-      showMessage(
-        "registrationMessage",
-        "تعذّر النسخ تلقائيًا. احتفظ بالرقم يدويًا.",
-        true
-      );
+      return labels[status] || status || "غير معروف";
     }
-  });
 
-  // تحميل التصويتات المرئية للعامة
-  async function loadVotes() {
-    $("votesList").textContent = "جارٍ تحميل التصويتات...";
+    function statusClass(status) {
+      if (status === "open") return "open";
+      if (status === "closed") return "closed";
+      if (status === "published") return "published";
 
-    try {
-      const query = db
-        .from("votes")
-        .select(
-          "id,title_ar,description_ar,kind,status,starts_at,ends_at,results_published"
-        )
-        .in("status", ["open", "closed", "published"])
-        .order("created_at", { ascending: false });
+      return "";
+    }
 
-      const { data, error } = await query;
+    function setButtonBusy(button, busy, busyText = "يرجى الانتظار...") {
+      if (!button) return;
 
-      if (error) throw error;
+      if (busy) {
+        button.dataset.originalText = button.textContent;
+        button.textContent = busyText;
+        button.disabled = true;
+      } else {
+        button.textContent =
+          button.dataset.originalText || button.textContent;
 
-      if (!data || data.length === 0) {
-        $("votesList").textContent =
-          "لا توجد تصويتات متاحة حاليًا.";
+        button.disabled = false;
+      }
+    }
+
+    function readableError(error) {
+      const message = error?.message || "";
+
+      if (
+        message.includes("سبق استعمال رقم الناخب") ||
+        message.includes("duplicate key")
+      ) {
+        return "سبق استعمال رقم الناخب هذا في الاستفتاء نفسه.";
+      }
+
+      if (
+        message.includes("Invalid login credentials")
+      ) {
+        return "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+      }
+
+      if (
+        message.includes("JWT") ||
+        message.includes("permission denied") ||
+        message.includes("not authorized")
+      ) {
+        return "لا توجد صلاحية لتنفيذ العملية. تحقق من حساب الإدارة وإعدادات قاعدة البيانات.";
+      }
+
+      return message || "حدث خطأ غير متوقع. حاول مجددًا.";
+    }
+
+    function toISODateTime(inputId) {
+      const value = $(inputId).value;
+
+      if (!value) return null;
+
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        throw new Error("تحقق من تاريخ ووقت الاستفتاء.");
+      }
+
+      return date.toISOString();
+    }
+
+    // =========================================================
+    // تسجيل المواطنين وإنشاء أرقام الناخبين
+    // =========================================================
+
+    $("registrationForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const button = $("registerButton");
+      const fullName = $("fullName").value.trim();
+
+      $("voterNumberBox").classList.add("hidden");
+
+      if (fullName.length < 2) {
+        showMessage(
+          "registrationMessage",
+          "يرجى إدخال الاسم الكامل.",
+          true
+        );
         return;
       }
 
-      $("votesList").innerHTML = data.map((vote) => {
-        const isOpen =
-          vote.status === "open" &&
-          (!vote.starts_at || new Date(vote.starts_at) <= new Date()) &&
-          (!vote.ends_at || new Date(vote.ends_at) > new Date());
+      setButtonBusy(button, true, "جارٍ التسجيل...");
+      showMessage("registrationMessage", "");
 
-        return `
-          <article class="vote-card">
+      try {
+        const { data, error } = await db.rpc(
+          "register_kingdom_voter",
+          {
+            p_full_name: fullName
+          }
+        );
+
+        if (error) throw error;
+
+        if (!data || data.success !== true || !data.voter_number) {
+          throw new Error(
+            data?.message || "تعذّر إنشاء رقم الناخب."
+          );
+        }
+
+        $("generatedVoterNumber").textContent = data.voter_number;
+        $("voterNumberBox").classList.remove("hidden");
+
+        showMessage(
+          "registrationMessage",
+          data.message || "تم التسجيل بنجاح. احتفظ برقم الناخب."
+        );
+
+        $("fullName").value = "";
+
+      } catch (error) {
+        console.error("Registration error:", error);
+
+        showMessage(
+          "registrationMessage",
+          readableError(error),
+          true
+        );
+      } finally {
+        setButtonBusy(button, false);
+      }
+    });
+
+    $("copyNumberButton").addEventListener("click", async () => {
+      const number = $("generatedVoterNumber").textContent;
+
+      if (!number) return;
+
+      try {
+        await navigator.clipboard.writeText(number);
+
+        showMessage(
+          "registrationMessage",
+          "تم نسخ رقم الناخب."
+        );
+      } catch {
+        showMessage(
+          "registrationMessage",
+          "تعذّر النسخ التلقائي. احتفظ برقم الناخب الظاهر أمامك.",
+          true
+        );
+      }
+    });
+
+    // =========================================================
+    // تحميل الاستفتاءات العامة
+    // =========================================================
+
+    async function loadVotes() {
+      const container = $("votesList");
+
+      container.innerHTML = "";
+      showMessage("votesMessage", "جارٍ تحميل الاستفتاءات...");
+
+      try {
+        const { data, error } = await db
+          .from("votes")
+          .select(
+            "id,title_ar,title_en,description_ar,description_en,kind,status,starts_at,ends_at,results_published"
+          )
+          .in("status", ["open", "closed", "published"])
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+          showMessage("votesMessage", "لا توجد استفتاءات متاحة حاليًا.");
+          return;
+        }
+
+        showMessage("votesMessage", "");
+
+        for (const vote of data) {
+          const card = document.createElement("article");
+          card.className = "vote-card";
+
+          const isOpen = vote.status === "open";
+
+          card.innerHTML = `
             <h3>${escapeHTML(vote.title_ar)}</h3>
 
-            <p>${escapeHTML(vote.description_ar || "")}</p>
+            ${
+              vote.title_en
+                ? `<p class="muted">${escapeHTML(vote.title_en)}</p>`
+                : ""
+            }
 
-            <p class="muted">
-              الحالة: ${escapeHTML(statusLabel(vote.status))}
+            ${
+              vote.description_ar
+                ? `<p>${escapeHTML(vote.description_ar)}</p>`
+                : ""
+            }
+
+            <p>
+              الحالة:
+              <span class="status ${statusClass(vote.status)}">
+                ${escapeHTML(statusLabel(vote.status))}
+              </span>
             </p>
 
             <p class="muted">
-              البداية: ${escapeHTML(formatDate(vote.starts_at))}
+              بداية التصويت: ${escapeHTML(formatDate(vote.starts_at))}
             </p>
 
             <p class="muted">
-              النهاية: ${escapeHTML(formatDate(vote.ends_at))}
+              نهاية التصويت: ${escapeHTML(formatDate(vote.ends_at))}
             </p>
 
             ${
               isOpen
                 ? `
-                  <form class="castVoteForm" data-vote-id="${escapeHTML(vote.id)}">
-                    <label>رقم الناخب الملكي</label>
+                  <form class="voteForm" data-vote-id="${escapeHTML(vote.id)}">
+                    <label for="voter-${escapeHTML(vote.id)}">
+                      رقم الناخب
+                    </label>
 
                     <input
-                      type="text"
+                      id="voter-${escapeHTML(vote.id)}"
                       name="voter_number"
-                      minlength="8"
-                      maxlength="40"
-                      dir="ltr"
-                      placeholder="KNG-..."
+                      type="text"
                       required
+                      maxlength="100"
+                      autocomplete="off"
+                      placeholder="PL-XXXXXXXX أو رقمك المسجل"
                     >
 
-                    <p><strong>اختر إجابتك:</strong></p>
+                    <p class="muted">
+                      اختر إجابة واحدة فقط.
+                    </p>
 
-                    ${fixedOptions.map((option, index) => `
-                      <label class="option">
+                    ${FIXED_OPTIONS.map((option, index) => `
+                      <label class="choice">
                         <input
                           type="radio"
                           name="option_id"
-                          value="${escapeHTML(index)}"
+                          value="${index + 1}"
                           required
                         >
                         <span>${escapeHTML(option.label_ar)}</span>
@@ -666,565 +1042,1019 @@
                     `).join("")}
 
                     <button type="submit">تأكيد التصويت</button>
+
+                    <div class="message" aria-live="polite"></div>
                   </form>
                 `
-                : ""
+                : `
+                  <p class="muted">
+                    ${vote.results_published
+                      ? "النتائج متاحة في قسم النتائج المنشورة."
+                      : "التصويت مغلق أو غير متاح حاليًا."}
+                  </p>
+                `
             }
+          `;
 
-            ${
-              vote.results_published
-                ? `<button type="button"
-                    class="showResultsButton"
-                    data-vote-id="${escapeHTML(vote.id)}">
-                    عرض النتائج
-                  </button>`
-                : ""
-            }
-          </article>
-        `;
-      }).join("");
+          if (isOpen) {
+            const form = card.querySelector(".voteForm");
 
-      document.querySelectorAll(".castVoteForm").forEach((form) => {
-        form.addEventListener("submit", submitVote);
-      });
+            form.addEventListener("submit", async (event) => {
+              await submitCitizenVote(event, vote.id, form);
+            });
+          }
 
-      document.querySelectorAll(".showResultsButton").forEach((button) => {
-        button.addEventListener("click", async () => {
-          await showResults(button.dataset.voteId);
-          $("results").scrollIntoView({ behavior: "smooth" });
-        });
-      });
+          container.appendChild(card);
+        }
 
-    } catch (error) {
-      console.error(error);
+      } catch (error) {
+        console.error("Load votes error:", error);
 
-      $("votesList").textContent =
-        "تعذّر تحميل التصويتات. راجع إعدادات Supabase.";
-    }
-  }
-
-  // تسجيل الصوت
-  async function submitVote(event) {
-    event.preventDefault();
-
-    const form = event.currentTarget;
-    const voteId = form.dataset.voteId;
-    const button = form.querySelector('button[type="submit"]');
-
-    const voterNumber =
-      form.elements.voter_number.value.trim().toUpperCase();
-
-    const selectedOption =
-      form.querySelector('input[name="option_id"]:checked');
-
-    if (!selectedOption) {
-      showMessage(
-        "voteMessage",
-        "يرجى اختيار إجابة.",
-        true
-      );
-      return;
-    }
-
-    const optionIndex = Number(selectedOption.value);
-
-    if (!Number.isInteger(optionIndex) ||
-        optionIndex < 0 ||
-        optionIndex >= fixedOptions.length) {
-      showMessage(
-        "voteMessage",
-        "الاختيار غير صالح.",
-        true
-      );
-      return;
-    }
-
-    button.disabled = true;
-
-    showMessage(
-      "voteMessage",
-      "جارٍ تسجيل التصويت..."
-    );
-
-    try {
-      // جلب الاختيارات الفعلية المرتبطة بالاستفتاء
-      const { data: options, error: optionsError } = await db
-        .from("vote_options")
-        .select("id,display_order")
-        .eq("vote_id", voteId)
-        .order("display_order", { ascending: true });
-
-      if (optionsError) throw optionsError;
-
-      if (!options || options.length !== 3) {
-        throw new Error(
-          "اختيارات الاستفتاء غير مكتملة. راجع الإدارة."
+        showMessage(
+          "votesMessage",
+          "تعذّر تحميل الاستفتاءات: " + readableError(error),
+          true
         );
       }
-
-      const option = options.find(
-        (item) => Number(item.display_order) === optionIndex + 1
-      );
-
-      if (!option) {
-        throw new Error("تعذّر العثور على الاختيار.");
-      }
-
-      const { data, error } = await db.rpc(
-        "submit_vote_by_number",
-        {
-          p_vote_id: voteId,
-          p_option_id: option.id,
-          p_voter_number: voterNumber
-        }
-      );
-
-      if (error) throw error;
-
-      if (!data || !data.success) {
-        throw new Error("لم يتم تأكيد تسجيل التصويت.");
-      }
-
-      showMessage(
-        "voteMessage",
-        "تم تسجيل صوتك بنجاح. شكرًا لمشاركتك."
-      );
-
-      form.reset();
-
-    } catch (error) {
-      console.error(error);
-
-      showMessage(
-        "voteMessage",
-        error.message ||
-          "تعذّر تسجيل التصويت. تحقق من رقم الناخب.",
-        true
-      );
-    } finally {
-      button.disabled = false;
     }
-  }
 
-  // عرض النتائج المنشورة
-  async function showResults(voteId) {
-    const container = $("resultsList");
+    // =========================================================
+    // إرسال صوت المواطن
+    // =========================================================
 
-    container.textContent = "جارٍ تحميل النتائج...";
+    async function submitCitizenVote(event, voteId, form) {
+      event.preventDefault();
 
-    try {
-      const { data, error } = await db.rpc(
-        "get_number_vote_results",
-        { p_vote_id: voteId }
+      const button = form.querySelector('button[type="submit"]');
+      const message = form.querySelector(".message");
+
+      const voterNumber = form.elements.voter_number.value.trim();
+      const selectedOrder = Number(
+        form.querySelector('input[name="option_id"]:checked')?.value
       );
 
-      if (error) throw error;
-
-      if (!Array.isArray(data) || data.length === 0) {
-        container.textContent = "لا توجد نتائج منشورة.";
+      if (!voterNumber) {
+        message.textContent = "أدخل رقم الناخب.";
+        message.className = "message error";
         return;
       }
 
-      const total = data.reduce(
-        (sum, option) => sum + Number(option.votes || 0),
-        0
+      if (![1, 2, 3].includes(selectedOrder)) {
+        message.textContent = "اختر إحدى الإجابات الثلاث.";
+        message.className = "message error";
+        return;
+      }
+
+      setButtonBusy(button, true, "جارٍ تسجيل الصوت...");
+
+      message.textContent = "";
+      message.className = "message";
+
+      try {
+        const { data: options, error: optionsError } = await db
+          .from("vote_options")
+          .select("id,display_order")
+          .eq("vote_id", voteId)
+          .order("display_order", { ascending: true });
+
+        if (optionsError) throw optionsError;
+
+        if (!options || options.length !== 3) {
+          throw new Error(
+            "خيارات هذا الاستفتاء غير مكتملة. يرجى إعلام الإدارة."
+          );
+        }
+
+        const option = options.find(
+          (item) => Number(item.display_order) === selectedOrder
+        );
+
+        if (!option) {
+          throw new Error("تعذّر العثور على الاختيار المحدد.");
+        }
+
+        const { data, error } = await db.rpc(
+          "submit_vote_by_number",
+          {
+            p_vote_id: voteId,
+            p_option_id: option.id,
+            p_voter_number: voterNumber
+          }
+        );
+
+        if (error) throw error;
+
+        if (data && data.success === false) {
+          throw new Error(data.message || "تعذّر تسجيل التصويت.");
+        }
+
+        message.textContent =
+          data?.message ||
+          "تم تسجيل صوتك بنجاح. شكرًا لمشاركتك.";
+
+        message.className = "message success";
+
+        form.reset();
+
+        const inputs = form.querySelectorAll("input, button");
+
+        inputs.forEach((input) => {
+          input.disabled = true;
+        });
+
+      } catch (error) {
+        console.error("Submit vote error:", error);
+
+        message.textContent = readableError(error);
+        message.className = "message error";
+
+      } finally {
+        setButtonBusy(button, false);
+      }
+    }
+
+    // =========================================================
+    // النتائج العامة المنشورة فقط
+    // =========================================================
+
+    async function loadPublicResults() {
+      const container = $("publicResultsList");
+
+      container.innerHTML = "";
+
+      showMessage(
+        "publicResultsMessage",
+        "جارٍ تحميل النتائج المنشورة..."
       );
 
-      container.innerHTML = `
-        <h3>نتائج التصويت</h3>
-        <p>مجموع الأصوات: <strong>${total}</strong></p>
+      try {
+        const { data: votes, error } = await db
+          .from("votes")
+          .select("id,title_ar,title_en,status,results_published")
+          .in("status", ["closed", "published"])
+          .eq("results_published", true)
+          .order("created_at", { ascending: false });
 
-        ${data.map((option) => {
+        if (error) throw error;
+
+        if (!votes || votes.length === 0) {
+          showMessage(
+            "publicResultsMessage",
+            "لا توجد نتائج منشورة للعموم حاليًا."
+          );
+          return;
+        }
+
+        showMessage("publicResultsMessage", "");
+
+        for (const vote of votes) {
+          const card = document.createElement("article");
+          card.className = "vote-card";
+
+          card.innerHTML = `
+            <h3>${escapeHTML(vote.title_ar)}</h3>
+            ${
+              vote.title_en
+                ? `<p class="muted">${escapeHTML(vote.title_en)}</p>`
+                : ""
+            }
+            <button type="button">عرض النتائج</button>
+            <div class="message"></div>
+            <div class="resultsContent"></div>
+          `;
+
+          const button = card.querySelector("button");
+          const message = card.querySelector(".message");
+          const resultsContent = card.querySelector(".resultsContent");
+
+          button.addEventListener("click", async () => {
+            setButtonBusy(button, true, "جارٍ التحميل...");
+
+            message.textContent = "";
+            message.className = "message";
+            resultsContent.innerHTML = "";
+
+            try {
+              const { data, error } = await db.rpc(
+                "get_number_vote_results",
+                {
+                  p_vote_id: vote.id
+                }
+              );
+
+              if (error) throw error;
+
+              if (!data) {
+                throw new Error("لا توجد نتائج متاحة لهذا الاستفتاء.");
+              }
+
+              const options = Array.isArray(data)
+                ? data
+                : Array.isArray(data.options)
+                  ? data.options
+                  : [];
+
+              if (options.length === 0) {
+                resultsContent.textContent =
+                  "لا توجد نتائج متاحة للعرض.";
+                return;
+              }
+
+              resultsContent.innerHTML = options.map((option) => {
+                const label =
+                  option.label_ar ??
+                  option.option_label ??
+                  option.option_name ??
+                  "اختيار";
+
+                const count = Number(
+                  option.votes ??
+                  option.vote_count ??
+                  option.total_votes ??
+                  0
+                );
+
+                const percentage = Number(
+                  option.percentage ??
+                  option.percent ??
+                  0
+                );
+
+                const safePercentage = Math.max(
+                  0,
+                  Math.min(100, percentage)
+                );
+
+                return `
+                  <div class="vote-card">
+                    <h3>${escapeHTML(label)}</h3>
+                    <p>
+                      عدد الأصوات:
+                      <strong>${count.toLocaleString("ar-TN")}</strong>
+                    </p>
+                    <p>
+                      النسبة:
+                      <strong>${safePercentage.toLocaleString("ar-TN")}%</strong>
+                    </p>
+                    <div class="progress">
+                      <div class="progress-bar"
+                        style="width:${safePercentage}%"></div>
+                    </div>
+                  </div>
+                `;
+              }).join("");
+
+            } catch (error) {
+              console.error("Public results error:", error);
+
+              message.textContent = readableError(error);
+              message.className = "message error";
+
+            } finally {
+              setButtonBusy(button, false);
+            }
+          });
+
+          container.appendChild(card);
+        }
+
+      } catch (error) {
+        console.error("Load public results error:", error);
+
+        showMessage(
+          "publicResultsMessage",
+          "تعذّر تحميل النتائج: " + readableError(error),
+          true
+        );
+      }
+    }
+
+    // =========================================================
+    // تسجيل دخول الإدارة
+    // =========================================================
+
+    $("adminLoginForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const button = $("adminLoginButton");
+
+      const email = $("adminEmail").value.trim();
+      const password = $("adminPassword").value;
+
+      setButtonBusy(button, true, "جارٍ التحقق...");
+      showMessage("adminLoginMessage", "");
+
+      try {
+        const { error } = await db.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) throw error;
+
+        const { data, error: roleError } = await db.rpc("is_admin");
+
+        if (roleError) throw roleError;
+
+        if (data !== true) {
+          await db.auth.signOut();
+
+          throw new Error(
+            "هذا الحساب لا يملك صلاحيات الإدارة الملكية."
+          );
+        }
+
+        isAdmin = true;
+
+        $("adminLogin").classList.add("hidden");
+        $("adminPanel").classList.remove("hidden");
+
+        showMessage("adminLoginMessage", "");
+
+        await loadAdminVotes();
+        await loadAdminStatisticsList();
+
+        $("statisticsPanel").classList.add("hidden");
+        showMessage("statisticsMessage", "");
+
+      } catch (error) {
+        console.error("Admin login error:", error);
+
+        isAdmin = false;
+
+        $("adminPanel").classList.add("hidden");
+        $("adminLogin").classList.remove("hidden");
+
+        showMessage(
+          "adminLoginMessage",
+          readableError(error),
+          true
+        );
+
+      } finally {
+        setButtonBusy(button, false);
+      }
+    });
+
+    // =========================================================
+    // التحقق من جلسة الإدارة عند فتح الموقع
+    // =========================================================
+
+    async function checkAdmin() {
+      try {
+        const { data: sessionData, error: sessionError } =
+          await db.auth.getSession();
+
+        if (sessionError) throw sessionError;
+
+        if (!sessionData.session) {
+          isAdmin = false;
+          $("adminPanel").classList.add("hidden");
+          $("adminLogin").classList.remove("hidden");
+          return;
+        }
+
+        const { data, error } = await db.rpc("is_admin");
+
+        if (error || data !== true) {
+          isAdmin = false;
+
+          $("adminPanel").classList.add("hidden");
+          $("adminLogin").classList.remove("hidden");
+
+          await db.auth.signOut();
+
+          showMessage(
+            "adminLoginMessage",
+            "هذا الحساب لا يملك صلاحيات الإدارة الملكية.",
+            true
+          );
+
+          return;
+        }
+
+        isAdmin = true;
+
+        $("adminLogin").classList.add("hidden");
+        $("adminPanel").classList.remove("hidden");
+
+        await loadAdminVotes();
+        await loadAdminStatisticsList();
+
+        $("statisticsPanel").classList.add("hidden");
+        showMessage("statisticsMessage", "");
+
+      } catch (error) {
+        console.error("Check admin error:", error);
+
+        isAdmin = false;
+        $("adminPanel").classList.add("hidden");
+        $("adminLogin").classList.remove("hidden");
+      }
+    }
+
+    // =========================================================
+    // تحميل قائمة الاستفتاءات في لوحة الإحصائيات
+    // =========================================================
+
+    async function loadAdminStatisticsList() {
+      if (!isAdmin) return;
+
+      const select = $("statisticsVoteSelect");
+
+      select.innerHTML =
+        '<option value="">جارٍ تحميل الاستفتاءات...</option>';
+
+      try {
+        const { data, error } = await db
+          .from("votes")
+          .select("id,title_ar,status")
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+          select.innerHTML =
+            '<option value="">لا توجد استفتاءات</option>';
+
+          return;
+        }
+
+        select.innerHTML =
+          '<option value="">اختر استفتاءً لعرض إحصائياته</option>' +
+          data.map((vote) => `
+            <option value="${escapeHTML(vote.id)}">
+              ${escapeHTML(vote.title_ar)}
+              — ${escapeHTML(statusLabel(vote.status))}
+            </option>
+          `).join("");
+
+      } catch (error) {
+        console.error("Statistics list error:", error);
+
+        select.innerHTML =
+          '<option value="">تعذّر تحميل القائمة</option>';
+
+        showMessage(
+          "statisticsMessage",
+          "تعذّر تحميل قائمة الاستفتاءات: " + readableError(error),
+          true
+        );
+      }
+    }
+
+    // =========================================================
+    // الإحصائيات الداخلية — الإدارة فقط
+    // =========================================================
+
+    async function loadAdminStatistics() {
+      if (!isAdmin) {
+        showMessage(
+          "statisticsMessage",
+          "يجب تسجيل الدخول بحساب الإدارة.",
+          true
+        );
+
+        return;
+      }
+
+      const voteId = $("statisticsVoteSelect").value;
+
+      if (!voteId) {
+        $("statisticsPanel").classList.add("hidden");
+
+        showMessage(
+          "statisticsMessage",
+          "اختر الاستفتاء أولًا.",
+          true
+        );
+
+        return;
+      }
+
+      const button = $("refreshStatisticsButton");
+
+      setButtonBusy(button, true, "جارٍ تحميل الإحصائيات...");
+
+      $("statisticsPanel").classList.add("hidden");
+
+      showMessage(
+        "statisticsMessage",
+        "جارٍ تحميل الإحصائيات..."
+      );
+
+      try {
+        const { data, error } = await db.rpc(
+          "get_admin_vote_statistics",
+          {
+            p_vote_id: voteId
+          }
+        );
+
+        if (error) throw error;
+
+        if (!data || !Array.isArray(data.options)) {
+          throw new Error(
+            "صيغة الإحصائيات المستلمة غير صحيحة."
+          );
+        }
+
+        $("statisticsTotal").textContent =
+          Number(data.total_votes || 0).toLocaleString("ar-TN");
+
+        $("statisticsOptions").innerHTML = data.options.map((option) => {
           const count = Number(option.votes || 0);
-          const percentage = total
-            ? (count / total * 100).toFixed(1)
-            : "0.0";
+          const percentage = Number(option.percentage || 0);
+
+          const safePercentage = Math.max(
+            0,
+            Math.min(100, percentage)
+          );
 
           return `
-            <div class="vote-card">
-              <strong>${escapeHTML(option.label_ar)}</strong>
-              <p>عدد الأصوات: ${count}</p>
-              <p>النسبة: ${percentage}%</p>
+            <article class="vote-card">
+              <h3>${escapeHTML(option.label_ar)}</h3>
+
+              <p>
+                عدد الأصوات:
+                <strong>${count.toLocaleString("ar-TN")}</strong>
+              </p>
+
+              <p>
+                النسبة:
+                <strong>${percentage.toLocaleString("ar-TN")}%</strong>
+              </p>
+
               <div
-                style="height:12px;background:#e5e5e5;border-radius:8px;overflow:hidden"
+                class="progress"
+                role="progressbar"
+                aria-label="نسبة الأصوات"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="${safePercentage}"
               >
                 <div
-                  style="height:100%;width:${percentage}%;background:#18553b"
+                  class="progress-bar"
+                  style="width:${safePercentage}%"
                 ></div>
               </div>
-            </div>
+            </article>
           `;
-        }).join("")}
-      `;
+        }).join("");
 
-    } catch (error) {
-      console.error(error);
+        $("statisticsPanel").classList.remove("hidden");
 
-      container.textContent =
-        "النتائج غير منشورة أو تعذّر تحميلها.";
-    }
-  }
+        showMessage(
+          "statisticsMessage",
+          "تم تحديث الإحصائيات بنجاح."
+        );
 
-  // تسجيل دخول الإدارة
-  $("adminLoginForm").addEventListener("submit", async (event) => {
-    event.preventDefault();
+      } catch (error) {
+        console.error("Admin statistics error:", error);
 
-    showMessage("adminLoginMessage", "جارٍ التحقق...");
+        $("statisticsPanel").classList.add("hidden");
 
-    try {
-      const { error } = await db.auth.signInWithPassword({
-        email: $("adminEmail").value.trim(),
-        password: $("adminPassword").value
-      });
+        showMessage(
+          "statisticsMessage",
+          "تعذّر تحميل الإحصائيات: " + readableError(error),
+          true
+        );
 
-      if (error) throw error;
-
-      await checkAdmin();
-
-    } catch (error) {
-      console.error(error);
-
-      showMessage(
-        "adminLoginMessage",
-        "تعذّر تسجيل الدخول. تحقق من البيانات.",
-        true
-      );
-    }
-  });
-
-  // التحقق من صلاحية الإدارة
-  async function checkAdmin() {
-    const { data: sessionData } = await db.auth.getSession();
-
-    if (!sessionData.session) {
-      isAdmin = false;
-      $("adminPanel").classList.add("hidden");
-      $("adminLogin").classList.remove("hidden");
-      return;
+      } finally {
+        setButtonBusy(button, false);
+      }
     }
 
-    const { data, error } = await db.rpc("is_admin");
-
-    if (error || data !== true) {
-      isAdmin = false;
-
-      $("adminPanel").classList.add("hidden");
-      $("adminLogin").classList.remove("hidden");
-
-      showMessage(
-        "adminLoginMessage",
-        "هذا الحساب لا يملك صلاحيات الإدارة الملكية.",
-        true
-      );
-
-      await db.auth.signOut();
-      return;
-    }
-
-    isAdmin = true;
-
-    $("adminLogin").classList.add("hidden");
-    $("adminPanel").classList.remove("hidden");
-
-    await loadAdminVotes();
-  }
-
-  // إنشاء استفتاء
-  $("createVoteForm").addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    if (!isAdmin) return;
-
-    const title = $("voteTitle").value.trim();
-    const description = $("voteDescription").value.trim();
-
-    const startValue = $("voteStart").value;
-    const endValue = $("voteEnd").value;
-
-    if (startValue && endValue &&
-        new Date(endValue) <= new Date(startValue)) {
-      showMessage(
-        "createVoteMessage",
-        "تاريخ النهاية يجب أن يكون بعد تاريخ البداية.",
-        true
-      );
-      return;
-    }
-
-    const startDate = startValue
-      ? new Date(startValue).toISOString()
-      : null;
-
-    const endDate = endValue
-      ? new Date(endValue).toISOString()
-      : null;
-
-    showMessage(
-      "createVoteMessage",
-      "جارٍ إنشاء الاستفتاء..."
+    $("refreshStatisticsButton").addEventListener(
+      "click",
+      loadAdminStatistics
     );
 
-    try {
-      const { data: vote, error: voteError } = await db
-        .from("votes")
-        .insert({
-          title_ar: title,
-          title_en: title,
-          description_ar: description,
-          description_en: description,
-          kind: "referendum",
+    $("statisticsVoteSelect").addEventListener(
+      "change",
+      loadAdminStatistics
+    );
+
+    // =========================================================
+    // إنشاء استفتاء جديد وخياراته
+    // =========================================================
+
+    $("createVoteForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (!isAdmin) {
+        showMessage(
+          "createVoteMessage",
+          "يجب تسجيل الدخول بحساب الإدارة.",
+          true
+        );
+        return;
+      }
+
+      const button = $("createVoteButton");
+
+      setButtonBusy(button, true, "جارٍ إنشاء الاستفتاء...");
+
+      showMessage("createVoteMessage", "");
+
+      let createdVoteId = null;
+
+      try {
+        const titleAr = $("newTitleAr").value.trim();
+
+        const titleEn = $("newTitleEn").value.trim();
+
+        const descriptionAr =
+          $("newDescriptionAr").value.trim();
+
+        const descriptionEn =
+          $("newDescriptionEn").value.trim();
+
+        if (!titleAr) {
+          throw new Error("أدخل عنوان الاستفتاء بالعربية.");
+        }
+
+        const startsAt = toISODateTime("newStartsAt");
+        const endsAt = toISODateTime("newEndsAt");
+
+        if (startsAt && endsAt && new Date(endsAt) <= new Date(startsAt)) {
+          throw new Error(
+            "موعد نهاية التصويت يجب أن يكون بعد موعد بدايته."
+          );
+        }
+
+        const votePayload = {
+          title_ar: titleAr,
+          title_en: titleEn || null,
+          description_ar: descriptionAr || null,
+          description_en: descriptionEn || null,
+          kind: $("newVoteKind").value,
           status: "draft",
-          starts_at: startDate,
-          ends_at: endDate,
+          starts_at: startsAt,
+          ends_at: endsAt,
           results_published: false
-        })
-        .select("id")
-        .single();
+        };
 
-      if (voteError) throw voteError;
+        const { data: vote, error: voteError } = await db
+          .from("votes")
+          .insert(votePayload)
+          .select("id")
+          .single();
 
-      const optionsToInsert = fixedOptions.map(
-        (option, index) => ({
-          vote_id: vote.id,
+        if (voteError) throw voteError;
+
+        createdVoteId = vote.id;
+
+        const optionsPayload = FIXED_OPTIONS.map((option) => ({
+          vote_id: createdVoteId,
           label_ar: option.label_ar,
           label_en: option.label_en,
-          display_order: index + 1
-        })
-      );
+          display_order: option.display_order
+        }));
 
-      const { error: optionsError } = await db
-        .from("vote_options")
-        .insert(optionsToInsert);
+        const { error: optionsError } = await db
+          .from("vote_options")
+          .insert(optionsPayload);
 
-      if (optionsError) {
-        throw new Error(
-          "أُنشئ الاستفتاء، لكن تعذّر حفظ الاختيارات. " +
-          optionsError.message
+        if (optionsError) {
+          console.error(
+            "Vote created but options failed:",
+            optionsError
+          );
+
+          throw new Error(
+            "تم إنشاء الاستفتاء لكن تعذّر إنشاء خياراته. " +
+            "تحقق من قاعدة البيانات قبل إعادة المحاولة. " +
+            optionsError.message
+          );
+        }
+
+        $("createVoteForm").reset();
+
+        showMessage(
+          "createVoteMessage",
+          "تم إنشاء الاستفتاء وخياراته بنجاح. حالته الحالية: مسودة."
         );
-      }
 
-      $("createVoteForm").reset();
+        await loadAdminVotes();
+        await loadAdminStatisticsList();
+        await loadVotes();
+
+      } catch (error) {
+        console.error("Create vote error:", error);
+
+        showMessage(
+          "createVoteMessage",
+          readableError(error),
+          true
+        );
+
+      } finally {
+        setButtonBusy(button, false);
+      }
+    });
+
+    // =========================================================
+    // إدارة الاستفتاءات
+    // =========================================================
+
+    async function loadAdminVotes() {
+      if (!isAdmin) return;
+
+      const container = $("adminVotesList");
+
+      container.innerHTML = "";
 
       showMessage(
-        "createVoteMessage",
-        "تم إنشاء الاستفتاء. يمكنك فتحه من قائمة الإدارة."
+        "adminVotesMessage",
+        "جارٍ تحميل قائمة الاستفتاءات..."
       );
 
-      await loadAdminVotes();
-      await loadVotes();
+      try {
+        const { data, error } = await db
+          .from("votes")
+          .select(
+            "id,title_ar,title_en,status,starts_at,ends_at,results_published,created_at"
+          )
+          .order("created_at", { ascending: false });
 
-    } catch (error) {
-      console.error(error);
+        if (error) throw error;
 
-      showMessage(
-        "createVoteMessage",
-        error.message ||
-          "تعذّر إنشاء الاستفتاء. تحقق من صلاحيات الإدارة.",
-        true
-      );
-    }
-  });
+        if (!data || data.length === 0) {
+          showMessage(
+            "adminVotesMessage",
+            "لا توجد استفتاءات في قاعدة البيانات."
+          );
+          return;
+        }
 
-  // قائمة الإدارة
-  async function loadAdminVotes() {
-    if (!isAdmin) return;
+        showMessage("adminVotesMessage", "");
 
-    const container = $("adminVotesList");
+        for (const vote of data) {
+          const card = document.createElement("article");
+          card.className = "vote-card";
 
-    container.textContent = "جارٍ تحميل الاستفتاءات...";
+          card.innerHTML = `
+            <h3>${escapeHTML(vote.title_ar)}</h3>
 
-    try {
-      const { data, error } = await db
-        .from("votes")
-        .select(
-          "id,title_ar,status,starts_at,ends_at,results_published"
-        )
-        .order("created_at", { ascending: false });
-
-      if (error) throw error;
-
-      if (!data || data.length === 0) {
-        container.textContent = "لا توجد استفتاءات.";
-        return;
-      }
-
-      container.innerHTML = data.map((vote) => `
-        <article class="vote-card">
-          <h3>${escapeHTML(vote.title_ar)}</h3>
-
-          <p>الحالة: ${escapeHTML(statusLabel(vote.status))}</p>
-
-          <p class="muted">
-            البداية: ${escapeHTML(formatDate(vote.starts_at))}
-          </p>
-
-          <p class="muted">
-            النهاية: ${escapeHTML(formatDate(vote.ends_at))}
-          </p>
-
-          <label>تغيير الحالة</label>
-
-          <select id="status-${escapeHTML(vote.id)}">
-            <option value="draft" ${vote.status === "draft" ? "selected" : ""}>مسودة</option>
-            <option value="scheduled" ${vote.status === "scheduled" ? "selected" : ""}>مجدول</option>
-            <option value="open" ${vote.status === "open" ? "selected" : ""}>مفتوح</option>
-            <option value="closed" ${vote.status === "closed" ? "selected" : ""}>مغلق</option>
-            <option value="published" ${vote.status === "published" ? "selected" : ""}>منشور</option>
-          </select>
-
-          <button
-            type="button"
-            data-action="status"
-            data-vote-id="${escapeHTML(vote.id)}"
-          >حفظ الحالة</button>
-
-          <button
-            type="button"
-            class="gold-button"
-            data-action="publish"
-            data-vote-id="${escapeHTML(vote.id)}"
-          >نشر النتائج</button>
-
-          <div
-            class="message"
-            id="admin-message-${escapeHTML(vote.id)}"
-          ></div>
-        </article>
-      `).join("");
-
-      container.querySelectorAll("button[data-action]").forEach((button) => {
-        button.addEventListener("click", async () => {
-          const voteId = button.dataset.voteId;
-          const action = button.dataset.action;
-
-          if (!isAdmin) return;
-
-          button.disabled = true;
-
-          try {
-            let updates;
-
-            if (action === "status") {
-              const status = $(`status-${voteId}`).value;
-
-              updates = { status };
-
-            } else {
-              updates = {
-                status: "published",
-                results_published: true
-              };
+            ${
+              vote.title_en
+                ? `<p class="muted">${escapeHTML(vote.title_en)}</p>`
+                : ""
             }
 
-            const { error } = await db
-              .from("votes")
-              .update(updates)
-              .eq("id", voteId);
+            <p>
+              الحالة الحالية:
+              <span class="status ${statusClass(vote.status)}">
+                ${escapeHTML(statusLabel(vote.status))}
+              </span>
+            </p>
 
-            if (error) throw error;
+            <p class="muted">
+              بداية التصويت: ${escapeHTML(formatDate(vote.starts_at))}
+            </p>
 
-            const message = $(`admin-message-${voteId}`);
+            <p class="muted">
+              نهاية التصويت: ${escapeHTML(formatDate(vote.ends_at))}
+            </p>
 
-            message.className = "message success";
-            message.textContent = "تم حفظ التعديل.";
+            <p>
+              نشر النتائج:
+              <strong>${vote.results_published ? "نعم" : "لا"}</strong>
+            </p>
 
-            await loadAdminVotes();
-            await loadVotes();
+            <label for="status-${escapeHTML(vote.id)}">
+              تغيير الحالة
+            </label>
 
-          } catch (error) {
-            console.error(error);
+            <select id="status-${escapeHTML(vote.id)}">
+              <option value="draft">مسودة</option>
+              <option value="scheduled">مجدول</option>
+              <option value="open">مفتوح للتصويت</option>
+              <option value="closed">مغلق</option>
+              <option value="published">النتائج منشورة</option>
+            </select>
 
-            const message = $(`admin-message-${voteId}`);
+            <div class="admin-actions">
+              <button type="button" class="saveStatusButton">
+                حفظ الحالة
+              </button>
 
-            message.className = "message error";
-            message.textContent =
-              "تعذّر الحفظ. تحقق من صلاحيات الإدارة.";
+              <button type="button" class="publishButton gold">
+                نشر النتائج للعموم
+              </button>
 
-          } finally {
-            button.disabled = false;
-          }
-        });
-      });
+              <button type="button" class="unpublishButton secondary">
+                إخفاء النتائج
+              </button>
+            </div>
 
-    } catch (error) {
-      console.error(error);
+            <div class="message" aria-live="polite"></div>
+          `;
 
-      container.textContent =
-        "تعذّر تحميل قائمة الإدارة.";
-    }
-  }
+          const statusSelect = card.querySelector("select");
+          const saveButton = card.querySelector(".saveStatusButton");
+          const publishButton = card.querySelector(".publishButton");
+          const unpublishButton = card.querySelector(".unpublishButton");
+          const message = card.querySelector(".message");
 
-  // تسجيل الخروج
-  $("logoutButton").addEventListener("click", async () => {
-    await db.auth.signOut();
+          statusSelect.value = vote.status;
 
-    isAdmin = false;
+          saveButton.addEventListener("click", async () => {
+            if (!isAdmin) return;
 
-    $("adminPanel").classList.add("hidden");
-    $("adminLogin").classList.remove("hidden");
+            const newStatus = statusSelect.value;
 
-    showMessage("adminLoginMessage", "تم تسجيل الخروج.");
-  });
+            setButtonBusy(saveButton, true, "جارٍ الحفظ...");
 
-  $("refreshVotesButton").addEventListener("click", loadVotes);
+            message.textContent = "";
+            message.className = "message";
 
-  $("refreshAdminButton").addEventListener("click", loadAdminVotes);
+            try {
+              const { error } = await db
+                .from("votes")
+                .update({
+                  status: newStatus,
+                  updated_at: new Date().toISOString()
+                })
+                .eq("id", vote.id);
 
-  // عند فتح الموقع
-  async function initializeSite() {
-    await loadVotes();
-    await loadResultsList();
-    await checkAdmin();
-  }
+              if (error) throw error;
 
-  async function loadResultsList() {
-    const container = $("resultsList");
+              message.textContent = "تم تحديث حالة الاستفتاء.";
+              message.className = "message success";
 
-    try {
-      const { data, error } = await db
-        .from("votes")
-        .select("id,title_ar,results_published,status")
-        .in("status", ["closed", "published"])
-        .eq("results_published", true)
-        .order("created_at", { ascending: false });
+              await loadAdminVotes();
+              await loadAdminStatisticsList();
+              await loadVotes();
+              await loadPublicResults();
 
-      if (error) throw error;
+            } catch (error) {
+              console.error("Update status error:", error);
 
-      if (!data || data.length === 0) {
-        container.textContent = "لا توجد نتائج منشورة حاليًا.";
-        return;
+              message.textContent = readableError(error);
+              message.className = "message error";
+
+            } finally {
+              setButtonBusy(saveButton, false);
+            }
+          });
+
+          publishButton.addEventListener("click", async () => {
+            if (!isAdmin) return;
+
+            const confirmed = window.confirm(
+              "هل تريد نشر نتائج هذا الاستفتاء للعموم؟"
+            );
+
+            if (!confirmed) return;
+
+            setButtonBusy(publishButton, true, "جارٍ النشر...");
+
+            try {
+              const { error } = await db
+                .from("votes")
+                .update({
+                  status: "published",
+                  results_published: true,
+                  updated_at: new Date().toISOString()
+                })
+                .eq("id", vote.id);
+
+              if (error) throw error;
+
+              message.textContent =
+                "تم نشر النتائج. أصبحت متاحة للعموم.";
+              message.className = "message success";
+
+              await loadAdminVotes();
+              await loadAdminStatisticsList();
+              await loadVotes();
+              await loadPublicResults();
+
+            } catch (error) {
+              console.error("Publish error:", error);
+
+              message.textContent = readableError(error);
+              message.className = "message error";
+
+            } finally {
+              setButtonBusy(publishButton, false);
+            }
+          });
+
+          unpublishButton.addEventListener("click", async () => {
+            if (!isAdmin) return;
+
+            const confirmed = window.confirm(
+              "هل تريد إخفاء النتائج عن العموم؟"
+            );
+
+            if (!confirmed) return;
+
+            setButtonBusy(unpublishButton, true, "جارٍ الإخفاء...");
+
+            try {
+              const { error } = await db
+                .from("votes")
+                .update({
+                  results_published: false,
+                  updated_at: new Date().toISOString()
+                })
+                .eq("id", vote.id);
+
+              if (error) throw error;
+
+              message.textContent =
+                "تم إخفاء النتائج عن قسم النتائج العامة.";
+              message.className = "message success";
+
+              await loadAdminVotes();
+              await loadAdminStatisticsList();
+              await loadPublicResults();
+
+            } catch (error) {
+              console.error("Unpublish error:", error);
+
+              message.textContent = readableError(error);
+              message.className = "message error";
+
+            } finally {
+              setButtonBusy(unpublishButton, false);
+            }
+          });
+
+          container.appendChild(card);
+        }
+
+      } catch (error) {
+        console.error("Load admin votes error:", error);
+
+        showMessage(
+          "adminVotesMessage",
+          "تعذّر تحميل الاستفتاءات: " + readableError(error),
+          true
+        );
       }
-
-      container.innerHTML = data.map((vote) => `
-        <article class="vote-card">
-          <h3>${escapeHTML(vote.title_ar)}</h3>
-
-          <button
-            type="button"
-            class="showResultsButton"
-            data-vote-id="${escapeHTML(vote.id)}"
-          >
-            عرض النتائج
-          </button>
-        </article>
-      `).join("");
-
-      container.querySelectorAll(".showResultsButton").forEach((button) => {
-        button.addEventListener("click", () => {
-          showResults(button.dataset.voteId);
-        });
-      });
-
-    } catch (error) {
-      console.error(error);
-
-      container.textContent =
-        "تعذّر تحميل النتائج المنشورة.";
     }
-  }
 
-  initializeSite();
-</script>
+    // =========================================================
+    // أزرار التحديث والخروج
+    // =========================================================
 
+    $("logoutButton").addEventListener("click", async () => {
+      try {
+        await db.auth.signOut();
+      } finally {
+        isAdmin = false;
+
+        $("adminPanel").classList.add("hidden");
+        $("adminLogin").classList.remove("hidden");
+
+        $("statisticsPanel").classList.add("hidden");
+        $("statisticsOptions").innerHTML = "";
+
+        showMessage(
+          "adminLoginMessage",
+          "تم تسجيل الخروج."
+        );
+      }
+    });
+
+    $("refreshVotesButton").addEventListener(
+      "click",
+      loadVotes
+    );
+
+    $("refreshPublicResultsButton").addEventListener(
+      "click",
+      loadPublicResults
+    );
+
+    $("refreshAdminButton").addEventListener(
+      "click",
+      async () => {
+        if (!isAdmin) return;
+
+        await loadAdminVotes();
+        await loadAdminStatisticsList();
+      }
+    );
+
+    // =========================================================
+    // تشغيل الموقع
+    // =========================================================
+
+    async function initializeApp() {
+      await Promise.all([
+        loadVotes(),
+        loadPublicResults()
+      ]);
+
+      await checkAdmin();
+    }
+
+    initializeApp();
+  </script>
 </body>
 </html>
